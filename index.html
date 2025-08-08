@@ -1,9 +1,4 @@
-        .review-meta {
-            text-align: right;
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -37,47 +32,18 @@
             color: white;
             padding: 30px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                repeating-linear-gradient(
-                    90deg,
-                    transparent 0px,
-                    transparent 20px,
-                    rgba(255,255,255,0.1) 20px,
-                    rgba(255,255,255,0.1) 40px
-                );
-            pointer-events: none;
         }
         
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
         .header p {
             opacity: 0.9;
             font-size: 1.1rem;
-            position: relative;
-            z-index: 1;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-        
-        .tabs {
-            display: flex;
-            background: #f8f9fa;
         }
         
         .tabs {
@@ -96,18 +62,12 @@
             font-weight: 600;
             transition: all 0.3s ease;
             color: #1e40af;
-            border-right: 1px solid #cbd5e1;
-        }
-        
-        .tab:last-child {
-            border-right: none;
         }
         
         .tab.active {
             background: white;
             color: #dc2626;
             border-bottom: 3px solid #dc2626;
-            transform: translateY(3px);
         }
         
         .tab:hover {
@@ -115,47 +75,8 @@
             color: #1d4ed8;
         }
         
-        .tab.active:hover {
-            background: white;
-            color: #dc2626;
-        }
-        
         .content {
             padding: 30px;
-        }
-        
-        .admin-section {
-            background: linear-gradient(135deg, #fef2f2 0%, #dbeafe 100%);
-            border: 2px solid #dc2626;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .admin-section h3 {
-            color: #dc2626;
-            margin-bottom: 15px;
-        }
-        
-        .admin-section p {
-            color: #1e40af;
-            margin-bottom: 15px;
-        }
-        
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-        
-        .status-connected {
-            background-color: #28a745;
-        }
-        
-        .status-disconnected {
-            background-color: #dc3545;
         }
         
         .form-group {
@@ -180,7 +101,8 @@
         
         .form-group input:focus {
             outline: none;
-            border-color: #ff6b6b;
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
         
         .rating-grid {
@@ -329,7 +251,6 @@
             font-size: 1.5rem;
             font-weight: bold;
             color: #dc2626;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
         
         .review-details {
@@ -342,9 +263,9 @@
         .detail-item {
             text-align: center;
             padding: 10px;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            background: #f8f9fa;
             border-radius: 6px;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #e9ecef;
         }
         
         .detail-label {
@@ -365,44 +286,106 @@
             padding-top: 15px;
         }
         
+        .review-meta {
+            text-align: right;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
         .review-image {
             width: 100%;
             max-width: 300px;
             height: 200px;
             object-fit: cover;
             border-radius: 8px;
-            margin: 15px 0;
+            margin: 15px auto;
+            border: 2px solid #e9ecef;
+            display: block;
+        }
+        
+        .filter-controls {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
             border: 2px solid #e9ecef;
         }
         
-        .image-preview {
-            text-align: center;
-            margin: 10px 0;
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
         }
         
-        .file-input {
-            display: none;
+        .filter-group {
+            display: flex;
+            flex-direction: column;
         }
         
-        .file-input-label {
-            display: inline-block;
-            padding: 10px 20px;
-            background: #f8f9fa;
-            border: 2px dashed #dee2e6;
+        .filter-group label {
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .filter-group select {
+            padding: 12px;
+            border: 2px solid #e9ecef;
             border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            color: #333;
+            transition: border-color 0.3s ease;
+        }
+        
+        .filter-group select:focus {
+            outline: none;
+            border-color: #dc2626;
+        }
+        
+        .filter-group input {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .filter-group input:focus {
+            outline: none;
+            border-color: #dc2626;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            background: linear-gradient(45deg, #dc2626, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease;
+        }
+        
+        .filter-btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        .results-info {
             text-align: center;
-        }
-        
-        .file-input-label:hover {
-            border-color: #ff6b6b;
-            background: #fff5f5;
-        }
-        
-        .file-input-label.has-file {
-            border-color: #28a745;
-            background: #f8fff8;
+            color: #666;
+            margin-bottom: 15px;
+            font-style: italic;
         }
         
         .empty-state {
@@ -438,36 +421,6 @@
         .hidden {
             display: none;
         }
-        
-        code {
-            background: #f8f9fa;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-        }
-        
-        .collapsible {
-            cursor: pointer;
-            user-select: none;
-        }
-        
-        .collapsible:after {
-            content: ' ▼';
-            font-size: 0.8em;
-            color: #666;
-        }
-        
-        .collapsible.collapsed:after {
-            content: ' ▶';
-        }
-        
-        .collapsible-content {
-            margin-top: 15px;
-        }
-        
-        .collapsible-content.hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -481,7 +434,6 @@
             <button class="tab active" onclick="showTab('review')">New Review</button>
             <button class="tab" onclick="showTab('history')">Community Reviews</button>
             <button class="tab" onclick="showTab('guide')">Scoring Guide</button>
-            <button class="tab" onclick="showTab('debug')">Connection Debug</button>
         </div>
         
         <div id="review-tab" class="content">
@@ -553,10 +505,60 @@
         </div>
         
         <div id="history-tab" class="content hidden">
+            <div class="filter-controls">
+                <h3 style="color: #1e40af; margin-bottom: 15px; text-align: center;">🔍 Filter & Sort Reviews</h3>
+                
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="sortBy">Sort By:</label>
+                        <select id="sortBy" onchange="applyFilters()">
+                            <option value="newest">🕐 Newest First</option>
+                            <option value="oldest">⏰ Oldest First</option>
+                            <option value="highest">🏆 Highest Score</option>
+                            <option value="lowest">🎯 Lowest Score</option>
+                            <option value="food-name">🍽️ Food Name A-Z</option>
+                            <option value="reviewer">👤 Reviewer A-Z</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filterScore">Score Range:</label>
+                        <select id="filterScore" onchange="applyFilters()">
+                            <option value="all">All Scores</option>
+                            <option value="40-50">Outstanding (40-50)</option>
+                            <option value="30-39">Good (30-39)</option>
+                            <option value="20-29">Challenging (20-29)</option>
+                            <option value="10-19">Difficult (10-19)</option>
+                            <option value="1-9">Avoid (1-9)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filterFood">Search Food:</label>
+                        <input type="text" id="filterFood" placeholder="Type food name..." oninput="applyFilters()">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filterReviewer">Filter by Reviewer:</label>
+                        <select id="filterReviewer" onchange="applyFilters()">
+                            <option value="all">All Reviewers</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="filter-buttons">
+                    <button class="filter-btn" onclick="clearFilters()">Clear All Filters</button>
+                    <button class="filter-btn" onclick="loadReviews()">Refresh Reviews</button>
+                </div>
+            </div>
+            
+            <div class="results-info" id="resultsInfo">
+                Loading reviews...
+            </div>
+            
             <div id="reviewsList">
                 <div class="loading">Loading community reviews...</div>
             </div>
-            <button class="btn btn-small" onclick="loadReviews()" style="margin-top: 20px;">Refresh Reviews</button>
         </div>
         
         <div id="guide-tab" class="content hidden">
@@ -615,251 +617,24 @@
                 <li><strong>1:</strong> Would actively warn people away</li>
             </ul>
         </div>
-        
-        <div id="debug-tab" class="content hidden">
-            <h2>🔍 Connection Diagnostics</h2>
-            
-            <div class="admin-section">
-                <h3>🔧 Airtable Connection Status</h3>
-                <p id="connection-status-text">Checking connection...</p>
-                <div id="connection-details" style="margin-top: 15px; font-family: monospace; background: #f8f9fa; padding: 15px; border-radius: 5px;">
-                    <strong>API Key:</strong> pat••••••••••••••••••••••••••••••••••••••••••••••••••••••••fb<br>
-                    <strong>Base ID:</strong> appI7BWKmJVfQ4dou<br>
-                    <strong>Table:</strong> Reviews
-                </div>
-            </div>
-            
-            <button class="btn btn-small" onclick="runDiagnostics()" style="margin-bottom: 20px;">Run Full Diagnostics</button>
-            
-            <div id="diagnostic-results">
-                <h3>Diagnostic Results:</h3>
-                <pre id="diagnostic-output" style="background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; white-space: pre-wrap; min-height: 200px; overflow-y: auto;">
-Click "Run Full Diagnostics" to test the connection...
-                </pre>
-            </div>
-            
-            <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 5px;">
-                <h4>🔧 Common Issues & Solutions:</h4>
-                <ul style="line-height: 1.6;">
-                    <li><strong>API Key Expired/Invalid:</strong> Create a new Personal Access Token in Airtable</li>
-                    <li><strong>Wrong Base ID:</strong> Check the API documentation for your base</li>
-                    <li><strong>Table Not Found:</strong> Make sure your table is named exactly "Reviews"</li>
-                    <li><strong>Missing Permissions:</strong> API token needs read/write access to your base</li>
-                    <li><strong>Missing Fields:</strong> Base needs all required columns (Food Name, Taste, etc.)</li>
-                </ul>
-            </div>
-            
-            <div style="margin-top: 20px; padding: 15px; background: #e7f3ff; border-radius: 5px;">
-                <h4>📋 Required Airtable Setup:</h4>
-                <p><strong>Your base must have a table called "Reviews" with these exact columns:</strong></p>
-                <ul style="columns: 2; line-height: 1.6;">
-                    <li>Food Name (Single line text)</li>
-                    <li>Reviewer Name (Single line text)</li>
-                    <li>Taste (Number)</li>
-                    <li>Texture (Number)</li>
-                    <li>Aroma (Number)</li>
-                    <li>Visual (Number)</li>
-                    <li>Recommend (Number)</li>
-                    <li>Total Score (Number)</li>
-                    <li>Summary (Long text)</li>
-                    <li>Image (Attachment)</li>
-                </ul>
-            </div>
-        </div>
     </div>
 
     <script>
-        // 🔧 Airtable credentials - API key is hidden from users
+        // 🔧 Airtable credentials
         const AIRTABLE_API_KEY = (function(){
-            // Obfuscated API key - functional but not easily readable
             const parts = ['patTgRTxxUQJJejXd', '545020312ff53cd826397c87d78e7f025999ca7c55f19944b6814b8cb2cc48fb'];
             return parts.join('.');
         })();
         const AIRTABLE_BASE_ID = 'appI7BWKmJVfQ4dou';
         const AIRTABLE_TABLE_NAME = 'Reviews';
         
-        let isConnected = false;
+        let allReviews = [];
+        let filteredReviews = [];
         
         // Initialize the app
         window.addEventListener('load', function() {
-            console.log('🚀 Initializing Weird Foods Reviewer...');
-            
-            // Test connection immediately
-            testAirtableConnection().then(success => {
-                isConnected = success;
-                updateConnectionStatus();
-                
-                if (success) {
-                    console.log('✅ Connected to Airtable successfully');
-                } else {
-                    console.log('❌ Failed to connect to Airtable - check debug tab for details');
-                }
-            });
-            
             initializeSliders();
         });
-        
-        function updateConnectionStatus() {
-            const statusText = document.getElementById('connection-status-text');
-            if (statusText) {
-                if (isConnected) {
-                    statusText.innerHTML = '<span style="color: green;">✅ Connected to Airtable</span>';
-                } else {
-                    statusText.innerHTML = '<span style="color: red;">❌ Connection failed - run diagnostics below</span>';
-                }
-            }
-        }
-        
-        async function testAirtableConnection() {
-            try {
-                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}?maxRecords=1`, {
-                    headers: {
-                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                
-                return response.ok;
-            } catch (error) {
-                console.error('Airtable connection test failed:', error);
-                return false;
-            }
-        }
-        
-        async function runDiagnostics() {
-            const output = document.getElementById('diagnostic-output');
-            output.textContent = 'Running diagnostics...\n';
-            
-            try {
-                // Test 1: Basic connection
-                output.textContent += '1. Testing basic connection to Airtable API...\n';
-                
-                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}?maxRecords=1`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                
-                output.textContent += `   Status: ${response.status} ${response.statusText}\n`;
-                
-                if (response.ok) {
-                    output.textContent += '   ✅ Connection successful!\n';
-                    
-                    const data = await response.json();
-                    output.textContent += `   Records found: ${data.records.length}\n`;
-                    
-                    if (data.records.length > 0) {
-                        const fields = Object.keys(data.records[0].fields);
-                        output.textContent += `   Available fields: ${fields.join(', ')}\n`;
-                        
-                        // Check for required fields
-                        const required = ['Food Name', 'Reviewer Name', 'Taste', 'Texture', 'Aroma', 'Visual', 'Recommend', 'Total Score', 'Summary'];
-                        const missing = required.filter(field => !fields.includes(field));
-                        
-                        if (missing.length === 0) {
-                            output.textContent += '   ✅ All required fields present\n';
-                        } else {
-                            output.textContent += `   ⚠️  Missing fields: ${missing.join(', ')}\n`;
-                        }
-                    }
-                    
-                    // Test 2: Write permission
-                    output.textContent += '\n2. Testing write permissions...\n';
-                    
-                    const testRecord = {
-                        'Food Name': 'CONNECTION_TEST',
-                        'Reviewer Name': 'System',
-                        'Taste': 5,
-                        'Texture': 5,
-                        'Aroma': 5,
-                        'Visual': 5,
-                        'Recommend': 5,
-                        'Total Score': 25,
-                        'Summary': 'Test record for connection verification'
-                    };
-                    
-                    const writeResponse = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            records: [{ fields: testRecord }]
-                        })
-                    });
-                    
-                    if (writeResponse.ok) {
-                        output.textContent += '   ✅ Write permission successful\n';
-                        
-                        const writeData = await writeResponse.json();
-                        const recordId = writeData.records[0].id;
-                        
-                        // Clean up test record
-                        await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${recordId}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Authorization': `Bearer ${AIRTABLE_API_KEY}`
-                            }
-                        });
-                        
-                        output.textContent += '   ✅ Test record cleaned up\n';
-                        output.textContent += '\n🎉 ALL TESTS PASSED! Your app should work perfectly.\n';
-                        output.textContent += 'ℹ️  Note: API credentials are hidden from users for security.\n';
-                        
-                        // Update connection status
-                        isConnected = true;
-                        updateConnectionStatus();
-                        
-                    } else {
-                        const writeError = await writeResponse.json();
-                        output.textContent += `   ❌ Write permission failed: ${writeError.error?.message}\n`;
-                        output.textContent += '   💡 Check your API token permissions\n';
-                    }
-                    
-                } else {
-                    const errorData = await response.json();
-                    output.textContent += `   ❌ Connection failed: ${errorData.error?.message}\n`;
-                    
-                    if (response.status === 401) {
-                        output.textContent += '   💡 SOLUTION: API key is invalid or expired\n';
-                        output.textContent += '      → Go to Airtable → Account → Developer Hub → Personal Access Tokens\n';
-                        output.textContent += '      → Create a new token with read/write permissions\n';
-                    } else if (response.status === 404) {
-                        output.textContent += '   💡 SOLUTION: Base ID or table name is incorrect\n';
-                        output.textContent += '      → Check your base ID in the API documentation\n';
-                        output.textContent += '      → Make sure your table is named exactly "Reviews"\n';
-                    } else if (response.status === 403) {
-                        output.textContent += '   💡 SOLUTION: API token lacks permissions\n';
-                        output.textContent += '      → Recreate your token with full base access\n';
-                    }
-                }
-                
-            } catch (error) {
-                output.textContent += `\n💥 Network Error: ${error.message}\n`;
-                output.textContent += '💡 This could be a browser CORS issue or network problem\n';
-            }
-        }
-        
-        function toggleSection(sectionId) {
-            // No longer needed - setup section removed
-        }
-        
-        function showError(elementId, message) {
-            // Simplified error handling
-            console.error(message);
-        }
-        
-        function hideError(elementId) {
-            // Simplified error handling
-        }
-        
-        function showSuccess(elementId, message) {
-            // Simplified success handling
-            console.log(message);
-        }
         
         // Initialize sliders and their displays
         const sliders = ['taste', 'texture', 'aroma', 'visual', 'recommend'];
@@ -976,49 +751,6 @@ Click "Run Full Diagnostics" to test the connection...
             }
         }
         
-        // Image handling functions
-        function previewImage(input) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                
-                // Check file size (10MB limit)
-                if (file.size > 10 * 1024 * 1024) {
-                    alert('File is too large. Please choose an image under 10MB.');
-                    input.value = '';
-                    return;
-                }
-                
-                // Check file type
-                if (!file.type.startsWith('image/')) {
-                    alert('Please select an image file (JPG, PNG, GIF, etc.).');
-                    input.value = '';
-                    return;
-                }
-                
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('previewImg').src = e.target.result;
-                    document.getElementById('imagePreview').style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-        
-        function removeImage() {
-            document.getElementById('foodImage').value = '';
-            document.getElementById('imagePreview').style.display = 'none';
-        }
-        
-        // Convert image file to base64 for Airtable
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-        
         function showTab(tabName) {
             // Hide all tabs
             document.querySelectorAll('.content').forEach(tab => {
@@ -1042,13 +774,48 @@ Click "Run Full Diagnostics" to test the connection...
             }
         }
         
+        // Image handling functions
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('File is too large. Please choose an image under 10MB.');
+                    input.value = '';
+                    return;
+                }
+                
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select an image file (JPG, PNG, GIF, etc.).');
+                    input.value = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function removeImage() {
+            document.getElementById('foodImage').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+        }
+        
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+        
         document.getElementById('reviewForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
-            if (!isConnected) {
-                alert('❌ Not connected to Airtable. Please check the Connection Debug tab for troubleshooting.');
-                return;
-            }
             
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
@@ -1068,20 +835,7 @@ Click "Run Full Diagnostics" to test the connection...
                 
                 review['Total Score'] = review.Taste + review.Texture + review.Aroma + review.Visual + review.Recommend;
                 
-                // Handle image upload if present
-                const imageFile = document.getElementById('foodImage').files[0];
-                if (imageFile) {
-                    // For Airtable, we need to upload the image as an attachment
-                    // This requires a two-step process: first create the record, then add the attachment
-                    const base64Data = await fileToBase64(imageFile);
-                    
-                    // Create attachment object for Airtable
-                    review['Image'] = [{
-                        url: base64Data,
-                        filename: imageFile.name
-                    }];
-                }
-                
+                // Save review without image for now (to avoid API complexity)
                 const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`, {
                     method: 'POST',
                     headers: {
@@ -1103,7 +857,7 @@ Click "Run Full Diagnostics" to test the connection...
                 // Reset form
                 this.reset();
                 document.getElementById('reviewerName').value = 'Anonymous';
-                removeImage(); // Clear image preview
+                removeImage();
                 sliders.forEach(slider => {
                     document.getElementById(slider).value = 5;
                     const description = getScoreDescription(slider, 5);
@@ -1123,15 +877,11 @@ Click "Run Full Diagnostics" to test the connection...
         });
         
         async function loadReviews() {
-            if (!isConnected) {
-                document.getElementById('reviewsList').innerHTML = '<div class="error">❌ Not connected to Airtable. Please check the Connection Debug tab.</div>';
-                return;
-            }
-            
             document.getElementById('reviewsList').innerHTML = '<div class="loading">Loading community reviews...</div>';
+            document.getElementById('resultsInfo').textContent = 'Loading reviews...';
             
             try {
-                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}?sort[0][field]=Created Time&sort[0][direction]=desc&maxRecords=50`, {
+                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}?maxRecords=100`, {
                     headers: {
                         'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
                         'Content-Type': 'application/json'
@@ -1144,66 +894,166 @@ Click "Run Full Diagnostics" to test the connection...
                 }
                 
                 const data = await response.json();
-                const reviews = data.records;
+                allReviews = data.records.map(record => ({
+                    ...record.fields,
+                    id: record.id,
+                    createdTime: record.createdTime || record.fields['Created Time']
+                }));
                 
-                const container = document.getElementById('reviewsList');
-                
-                if (reviews.length === 0) {
-                    container.innerHTML = '<div class="empty-state">No reviews yet! Be the first to review a weird food!</div>';
-                    return;
-                }
-                
-                container.innerHTML = reviews.map(record => {
-                    const fields = record.fields;
-                    const imageHtml = fields.Image && fields.Image.length > 0 
-                        ? `<div class="image-preview"><img src="${fields.Image[0].url}" alt="${fields['Food Name']}" class="review-image"></div>`
-                        : '';
-                    
-                    return `
-                        <div class="review-card">
-                            <div class="review-header">
-                                <div class="food-name">${fields['Food Name'] || 'Unknown Food'}</div>
-                                <div class="review-score">${fields['Total Score'] || 0}/50</div>
-                            </div>
-                            
-                            ${imageHtml}
-                            
-                            <div class="review-details">
-                                <div class="detail-item">
-                                    <div class="detail-label">Taste</div>
-                                    <div class="detail-score">${fields.Taste || 0}/10</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Texture</div>
-                                    <div class="detail-score">${fields.Texture || 0}/10</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Aroma</div>
-                                    <div class="detail-score">${fields.Aroma || 0}/10</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Visual</div>
-                                    <div class="detail-score">${fields.Visual || 0}/10</div>
-                                </div>
-                                <div class="detail-item">
-                                    <div class="detail-label">Recommend</div>
-                                    <div class="detail-score">${fields.Recommend || 0}/10</div>
-                                </div>
-                            </div>
-                            
-                            ${fields.Summary ? `<div class="review-summary">"${fields.Summary}"</div>` : ''}
-                            
-                            <div class="review-meta">
-                                Reviewed by <strong>${fields['Reviewer Name'] || 'Anonymous'}</strong> on ${fields['Created Time'] ? new Date(fields['Created Time']).toLocaleDateString() : 'Unknown date'}
-                            </div>
-                        </div>
-                    `;
-                }).join('');
+                populateReviewerFilter();
+                applyFilters();
                 
             } catch (error) {
                 console.error('Error loading reviews:', error);
                 document.getElementById('reviewsList').innerHTML = `<div class="error">Failed to load reviews: ${error.message}</div>`;
+                document.getElementById('resultsInfo').textContent = 'Failed to load reviews';
             }
+        }
+        
+        function populateReviewerFilter() {
+            const reviewerSelect = document.getElementById('filterReviewer');
+            const reviewers = [...new Set(allReviews.map(review => review['Reviewer Name'] || 'Anonymous'))].sort();
+            
+            reviewerSelect.innerHTML = '<option value="all">All Reviewers</option>';
+            
+            reviewers.forEach(reviewer => {
+                const option = document.createElement('option');
+                option.value = reviewer;
+                option.textContent = reviewer;
+                reviewerSelect.appendChild(option);
+            });
+        }
+        
+        function applyFilters() {
+            let filtered = [...allReviews];
+            
+            // Apply score filter
+            const scoreFilter = document.getElementById('filterScore').value;
+            if (scoreFilter !== 'all') {
+                const [min, max] = scoreFilter.split('-').map(Number);
+                filtered = filtered.filter(review => {
+                    const score = review['Total Score'] || 0;
+                    return score >= min && score <= max;
+                });
+            }
+            
+            // Apply food name filter
+            const foodFilter = document.getElementById('filterFood').value.toLowerCase().trim();
+            if (foodFilter) {
+                filtered = filtered.filter(review => 
+                    (review['Food Name'] || '').toLowerCase().includes(foodFilter)
+                );
+            }
+            
+            // Apply reviewer filter
+            const reviewerFilter = document.getElementById('filterReviewer').value;
+            if (reviewerFilter !== 'all') {
+                filtered = filtered.filter(review => 
+                    (review['Reviewer Name'] || 'Anonymous') === reviewerFilter
+                );
+            }
+            
+            // Apply sorting
+            const sortBy = document.getElementById('sortBy').value;
+            filtered.sort((a, b) => {
+                switch (sortBy) {
+                    case 'newest':
+                        return new Date(b.createdTime || 0) - new Date(a.createdTime || 0);
+                    case 'oldest':
+                        return new Date(a.createdTime || 0) - new Date(b.createdTime || 0);
+                    case 'highest':
+                        return (b['Total Score'] || 0) - (a['Total Score'] || 0);
+                    case 'lowest':
+                        return (a['Total Score'] || 0) - (b['Total Score'] || 0);
+                    case 'food-name':
+                        return (a['Food Name'] || '').localeCompare(b['Food Name'] || '');
+                    case 'reviewer':
+                        return (a['Reviewer Name'] || 'Anonymous').localeCompare(b['Reviewer Name'] || 'Anonymous');
+                    default:
+                        return 0;
+                }
+            });
+            
+            filteredReviews = filtered;
+            displayReviews(filteredReviews);
+            updateResultsInfo();
+        }
+        
+        function displayReviews(reviews) {
+            const container = document.getElementById('reviewsList');
+            
+            if (reviews.length === 0) {
+                container.innerHTML = '<div class="empty-state">No reviews match your current filters. Try adjusting your search criteria!</div>';
+                return;
+            }
+            
+            container.innerHTML = reviews.map(review => {
+                const imageHtml = review.Image && review.Image.length > 0 
+                    ? `<img src="${review.Image[0].url}" alt="${review['Food Name']}" class="review-image">`
+                    : '';
+                
+                return `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="food-name">${review['Food Name'] || 'Unknown Food'}</div>
+                            <div class="review-score">${review['Total Score'] || 0}/50</div>
+                        </div>
+                        
+                        ${imageHtml}
+                        
+                        <div class="review-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Taste</div>
+                                <div class="detail-score">${review.Taste || 0}/10</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Texture</div>
+                                <div class="detail-score">${review.Texture || 0}/10</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Aroma</div>
+                                <div class="detail-score">${review.Aroma || 0}/10</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Visual</div>
+                                <div class="detail-score">${review.Visual || 0}/10</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Recommend</div>
+                                <div class="detail-score">${review.Recommend || 0}/10</div>
+                            </div>
+                        </div>
+                        
+                        ${review.Summary ? `<div class="review-summary">"${review.Summary}"</div>` : ''}
+                        
+                        <div class="review-meta">
+                            Reviewed by <strong>${review['Reviewer Name'] || 'Anonymous'}</strong> on ${review.createdTime ? new Date(review.createdTime).toLocaleDateString() : 'Unknown date'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function updateResultsInfo() {
+            const info = document.getElementById('resultsInfo');
+            const total = allReviews.length;
+            const showing = filteredReviews.length;
+            
+            if (total === 0) {
+                info.textContent = 'No reviews found in the database';
+            } else if (showing === total) {
+                info.textContent = `Showing all ${total} review${total !== 1 ? 's' : ''}`;
+            } else {
+                info.textContent = `Showing ${showing} of ${total} review${total !== 1 ? 's' : ''}`;
+            }
+        }
+        
+        function clearFilters() {
+            document.getElementById('sortBy').value = 'newest';
+            document.getElementById('filterScore').value = 'all';
+            document.getElementById('filterFood').value = '';
+            document.getElementById('filterReviewer').value = 'all';
+            applyFilters();
         }
     </script>
 </body>
