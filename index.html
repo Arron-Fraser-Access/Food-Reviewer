@@ -34,6 +34,7 @@
             padding: 25px;
             text-align: center;
             flex-shrink: 0;
+            position: relative;
         }
         
         .header h1 {
@@ -46,6 +47,157 @@
             opacity: 0.9;
             font-size: 1.1rem;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .burning-bus {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            width: 80px;
+            height: 50px;
+            z-index: 10;
+        }
+        
+        .bus {
+            width: 60px;
+            height: 25px;
+            background: #dc2626;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .bus::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 5px;
+            right: 5px;
+            height: 8px;
+            background: #b91c1c;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .bus::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 8px;
+            width: 8px;
+            height: 8px;
+            background: #374151;
+            border-radius: 50%;
+            box-shadow: 36px 0 0 #374151;
+        }
+        
+        .bus-windows {
+            position: absolute;
+            top: -6px;
+            left: 8px;
+            right: 8px;
+            height: 4px;
+            background: linear-gradient(90deg, #dbeafe 20%, transparent 20%, transparent 40%, #dbeafe 40%, #dbeafe 60%, transparent 60%, transparent 80%, #dbeafe 80%);
+        }
+        
+        .flames {
+            position: absolute;
+            top: -15px;
+            left: -5px;
+            right: -5px;
+            height: 20px;
+        }
+        
+        .flame {
+            position: absolute;
+            background: radial-gradient(circle, #fbbf24 30%, #f59e0b 60%, #dc2626 90%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flicker 1s infinite alternate;
+        }
+        
+        .flame:nth-child(1) {
+            left: 10px;
+            width: 12px;
+            height: 18px;
+            animation-delay: 0s;
+        }
+        
+        .flame:nth-child(2) {
+            left: 25px;
+            width: 15px;
+            height: 22px;
+            animation-delay: 0.3s;
+        }
+        
+        .flame:nth-child(3) {
+            left: 40px;
+            width: 10px;
+            height: 16px;
+            animation-delay: 0.6s;
+        }
+        
+        .flame:nth-child(4) {
+            left: 52px;
+            width: 8px;
+            height: 14px;
+            animation-delay: 0.9s;
+        }
+        
+        @keyframes flicker {
+            0% {
+                transform: scale(1) rotate(-2deg);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1.1) rotate(2deg);
+                opacity: 1;
+            }
+        }
+        
+        .smoke {
+            position: absolute;
+            top: -30px;
+            left: 15px;
+            width: 30px;
+            height: 25px;
+        }
+        
+        .smoke-puff {
+            position: absolute;
+            background: radial-gradient(circle, rgba(107,114,128,0.6) 30%, rgba(156,163,175,0.4) 60%, transparent 90%);
+            border-radius: 50%;
+            animation: smoke-rise 2s infinite linear;
+        }
+        
+        .smoke-puff:nth-child(1) {
+            width: 8px;
+            height: 8px;
+            left: 5px;
+            animation-delay: 0s;
+        }
+        
+        .smoke-puff:nth-child(2) {
+            width: 10px;
+            height: 10px;
+            left: 15px;
+            animation-delay: 0.7s;
+        }
+        
+        .smoke-puff:nth-child(3) {
+            width: 6px;
+            height: 6px;
+            left: 25px;
+            animation-delay: 1.4s;
+        }
+        
+        @keyframes smoke-rise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-25px) scale(1.5);
+                opacity: 0;
+            }
         }
         
         .tabs {
@@ -434,6 +586,22 @@
 <body>
     <div class="container">
         <div class="header">
+            <div class="burning-bus">
+                <div class="smoke">
+                    <div class="smoke-puff"></div>
+                    <div class="smoke-puff"></div>
+                    <div class="smoke-puff"></div>
+                </div>
+                <div class="flames">
+                    <div class="flame"></div>
+                    <div class="flame"></div>
+                    <div class="flame"></div>
+                    <div class="flame"></div>
+                </div>
+                <div class="bus">
+                    <div class="bus-windows"></div>
+                </div>
+            </div>
             <h1>🍽️ Weird Foods Reviewer</h1>
             <p>Rate bizarre foods on a scale of 1-50 and share with the community!</p>
         </div>
@@ -628,7 +796,7 @@
     </div>
 
     <script>
-        // 🔧 Airtable credentials
+        // Airtable credentials
         const AIRTABLE_API_KEY = (function(){
             const parts = ['patTgRTxxUQJJejXd', '545020312ff53cd826397c87d78e7f025999ca7c55f19944b6814b8cb2cc48fb'];
             return parts.join('.');
@@ -760,29 +928,22 @@
         }
         
         function showTab(tabName) {
-            // Hide all tabs
             document.querySelectorAll('.content').forEach(tab => {
                 tab.classList.add('hidden');
             });
             
-            // Remove active class from all tab buttons
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             
-            // Show selected tab
             document.getElementById(tabName + '-tab').classList.remove('hidden');
-            
-            // Add active class to clicked tab
             event.target.classList.add('active');
             
-            // Load reviews if history tab is selected
             if (tabName === 'history') {
                 loadReviews();
             }
         }
         
-        // Image handling functions
         function previewImage(input) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
@@ -813,15 +974,6 @@
             document.getElementById('imagePreview').style.display = 'none';
         }
         
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-        
         document.getElementById('reviewForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -843,7 +995,6 @@
                 
                 review['Total Score'] = review.Taste + review.Texture + review.Aroma + review.Visual + review.Recommend;
                 
-                // Save review without image for now (to avoid API complexity)
                 const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`, {
                     method: 'POST',
                     headers: {
@@ -862,7 +1013,6 @@
                     throw new Error(errorData.error?.message || 'Failed to save review');
                 }
                 
-                // Reset form
                 this.reset();
                 document.getElementById('reviewerName').value = 'Anonymous';
                 removeImage();
@@ -935,7 +1085,6 @@
         function applyFilters() {
             let filtered = [...allReviews];
             
-            // Apply score filter
             const scoreFilter = document.getElementById('filterScore').value;
             if (scoreFilter !== 'all') {
                 const [min, max] = scoreFilter.split('-').map(Number);
@@ -945,7 +1094,6 @@
                 });
             }
             
-            // Apply food name filter
             const foodFilter = document.getElementById('filterFood').value.toLowerCase().trim();
             if (foodFilter) {
                 filtered = filtered.filter(review => 
@@ -953,7 +1101,6 @@
                 );
             }
             
-            // Apply reviewer filter
             const reviewerFilter = document.getElementById('filterReviewer').value;
             if (reviewerFilter !== 'all') {
                 filtered = filtered.filter(review => 
@@ -961,7 +1108,6 @@
                 );
             }
             
-            // Apply sorting
             const sortBy = document.getElementById('sortBy').value;
             filtered.sort((a, b) => {
                 switch (sortBy) {
@@ -995,7 +1141,6 @@
                 return;
             }
             
-            // Create a grid layout for 2 columns
             const reviewsGrid = `
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px;">
                     ${reviews.map(review => {
