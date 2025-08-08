@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+        async function testConnection() {
+            try {
+                const { data, error } = await supabase.from('reviews').select('*').limit(1);
+                return !error || error.code === 'PGRST116'; // Table might not exist yet, that's ok
+            } catch (error) {
+                return false;
+            }
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -766,8 +773,8 @@ CREATE POLICY "Allow all operations" ON reviews FOR ALL USING (true);</code>
         document.getElementById('reviewForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            if (!supabase || !isConnected) {
-                alert('Database is not connected. Please contact the site administrator.');
+            if (!supabase) {
+                alert('Database connection failed. Please try refreshing the page.');
                 return;
             }
             
@@ -811,7 +818,11 @@ CREATE POLICY "Allow all operations" ON reviews FOR ALL USING (true);</code>
                 
             } catch (error) {
                 console.error('Error saving review:', error);
-                alert('Failed to save review. Please try again or contact the administrator.');
+                if (error.code === 'PGRST116') {
+                    alert('Database table not found. The app owner needs to create the reviews table in Supabase.');
+                } else {
+                    alert('Failed to save review: ' + error.message);
+                }
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Share Review with Community';
@@ -819,8 +830,8 @@ CREATE POLICY "Allow all operations" ON reviews FOR ALL USING (true);</code>
         });
         
         async function loadReviews() {
-            if (!supabase || !isConnected) {
-                document.getElementById('reviewsList').innerHTML = '<div class="error">Database is not connected. Reviews cannot be loaded.</div>';
+            if (!supabase) {
+                document.getElementById('reviewsList').innerHTML = '<div class="error">Database connection failed. Please refresh the page.</div>';
                 return;
             }
             
@@ -884,7 +895,11 @@ CREATE POLICY "Allow all operations" ON reviews FOR ALL USING (true);</code>
                 
             } catch (error) {
                 console.error('Error loading reviews:', error);
-                document.getElementById('reviewsList').innerHTML = '<div class="error">Failed to load reviews. Please try again.</div>';
+                if (error.code === 'PGRST116') {
+                    document.getElementById('reviewsList').innerHTML = '<div class="error">No reviews table found. The app owner needs to set up the database.</div>';
+                } else {
+                    document.getElementById('reviewsList').innerHTML = '<div class="error">Failed to load reviews: ' + error.message + '</div>';
+                }
             }
         }
     </script>
