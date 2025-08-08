@@ -1,90 +1,8 @@
-        async function testConnection() {
-            try {
-                console.log('Testing Supabase connection...');
-                const { data, error } = await supabase.from('reviews').select('*').limit(1);
-                
-                if (error) {
-                    console.error('Connection test error:', error);
-                    if (error.code === 'PGRST116') {
-                        console.log('Table does not exist, but connection is working');
-                        return true; // Connection works, table just doesn't exist yet
-                    }
-                    return false;
-                }
-                
-                console.log('Connection test successful, got data:', data);
-                return true;
-            } catch (error) {
-                console.error('Connection test failed:', error);
-                return false;
-            }
-        }
-        
-        async function testDatabaseConnection() {
-            const debugOutput = document.getElementById('debug-output');
-            debugOutput.textContent = 'Running connection tests...\n';
-            
-            try {
-                // Test 1: Basic connection
-                debugOutput.textContent += '1. Testing Supabase client initialization...\n';
-                if (supabase) {
-                    debugOutput.textContent += '   ✅ Supabase client created\n';
-                } else {
-                    debugOutput.textContent += '   ❌ Supabase client failed to initialize\n';
-                    return;
-                }
-                
-                // Test 2: Simple query
-                debugOutput.textContent += '2. Testing database query...\n';
-                const { data, error } = await supabase.from('reviews').select('*').limit(1);
-                
-                if (error) {
-                    debugOutput.textContent += `   ❌ Query failed: ${error.message}\n`;
-                    debugOutput.textContent += `   Error code: ${error.code}\n`;
-                    debugOutput.textContent += `   Error details: ${error.details}\n`;
-                    
-                    if (error.code === 'PGRST116') {
-                        debugOutput.textContent += '   💡 This means the "reviews" table does not exist\n';
-                        debugOutput.textContent += '   📝 You need to create the table in Supabase SQL Editor\n';
-                    }
-                } else {
-                    debugOutput.textContent += '   ✅ Query successful\n';
-                    debugOutput.textContent += `   Found ${data ? data.length : 0} reviews\n`;
-                }
-                
-                // Test 3: Insert test
-                debugOutput.textContent += '3. Testing insert capability...\n';
-                const { data: insertData, error: insertError } = await supabase
-                    .from('reviews')
-                    .insert([{
-                        food_name: 'CONNECTION_TEST',
-                        taste: 5,
-                        texture: 5,
-                        aroma: 5,
-                        visual: 5,
-                        recommend: 5,
-                        total_score: 25,
-                        summary: 'Connection test',
-                        reviewer_name: 'System'
-                    }])
-                    .select();
-                
-                if (insertError) {
-                    debugOutput.textContent += `   ❌ Insert failed: ${insertError.message}\n`;
-                } else {
-                    debugOutput.textContent += '   ✅ Insert successful\n';
-                    
-                    // Clean up test record
-                    await supabase.from('reviews').delete().eq('food_name', 'CONNECTION_TEST');
-                    debugOutput.textContent += '   ✅ Test record cleaned up\n';
-                }
-                
-                debugOutput.textContent += '\n🎉 Connection test complete!\n';
-                
-            } catch (error) {
-                debugOutput.textContent += `\n💥 Unexpected error: ${error.message}\n`;
-                console.error('Debug test error:', error);
-            }
+        .review-meta {
+            text-align: right;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 10px;
         }<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -394,11 +312,44 @@
             padding-top: 15px;
         }
         
-        .review-meta {
-            text-align: right;
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 10px;
+        .review-image {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px solid #e9ecef;
+        }
+        
+        .image-preview {
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-input-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .file-input-label:hover {
+            border-color: #ff6b6b;
+            background: #fff5f5;
+        }
+        
+        .file-input-label.has-file {
+            border-color: #28a745;
+            background: #f8fff8;
         }
         
         .empty-state {
@@ -477,7 +428,7 @@
             <button class="tab active" onclick="showTab('review')">New Review</button>
             <button class="tab" onclick="showTab('history')">Community Reviews</button>
             <button class="tab" onclick="showTab('guide')">Scoring Guide</button>
-            <button class="tab" onclick="showTab('debug')">Connection Status</button>
+            <button class="tab" onclick="showTab('debug')">Connection Debug</button>
         </div>
         
         <div id="review-tab" class="content">
@@ -490,6 +441,16 @@
                 <div class="form-group">
                     <label for="foodName">Food Name:</label>
                     <input type="text" id="foodName" required placeholder="Enter the weird food you're reviewing...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="foodImage">Food Photo (optional):</label>
+                    <input type="file" id="foodImage" accept="image/*" onchange="previewImage(this)">
+                    <div id="imagePreview" style="margin-top: 10px; display: none;">
+                        <img id="previewImg" style="max-width: 200px; max-height: 200px; border-radius: 8px; border: 2px solid #e9ecef;">
+                        <button type="button" onclick="removeImage()" style="display: block; margin-top: 5px; padding: 5px 10px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Remove Image</button>
+                    </div>
+                    <small style="color: #666;">Max 10MB. JPG, PNG, GIF supported.</small>
                 </div>
                 
                 <div class="rating-grid">
@@ -602,129 +563,243 @@
             </ul>
         </div>
         
-        <div id="admin-tab" class="content hidden">
+        <div id="debug-tab" class="content hidden">
+            <h2>🔍 Connection Diagnostics</h2>
+            
             <div class="admin-section">
-                <h3>🔧 Database Setup</h3>
-                <p>The app is connected to the database automatically. You just need to create the reviews table once.</p>
-                <p><strong>Status:</strong> 
-                    <span id="connection-status" class="status-indicator status-connected"></span>
-                    <span id="connection-text">Connected to database</span>
-                </p>
+                <h3>🔧 Airtable Connection Status</h3>
+                <p id="connection-status-text">Checking connection...</p>
+                <div id="connection-details" style="margin-top: 15px; font-family: monospace; background: #f8f9fa; padding: 15px; border-radius: 5px;">
+                    <strong>API Key:</strong> patTgRT...fb<br>
+                    <strong>Base ID:</strong> appI7BWKmJVfQ4dou<br>
+                    <strong>Table:</strong> Reviews
+                </div>
             </div>
             
-            <h3>🗃️ One-Time Database Table Setup:</h3>
-            <p>Click this button to create the reviews table in your database (only needed once):</p>
-            <button id="setupTableBtn" class="btn btn-small" onclick="setupTable()">Create Reviews Table</button>
+            <button class="btn btn-small" onclick="runDiagnostics()" style="margin-bottom: 20px;">Run Full Diagnostics</button>
             
-            
-            <div id="setup-error" class="error hidden"></div>
-            <div id="setup-success" class="success hidden"></div>
-
-            <h3 class="collapsible collapsed" onclick="toggleSection('sql-section')" style="margin-top: 30px;">📝 Manual SQL Setup (if automatic setup fails)</h3>
-            <div id="sql-section" class="collapsible-content hidden">
-                <p>If automatic setup fails, run this SQL in your Supabase SQL editor:</p>
-                <code style="display: block; margin: 10px 0; padding: 15px; white-space: pre-wrap;">CREATE TABLE reviews (
-  id BIGSERIAL PRIMARY KEY,
-  food_name TEXT NOT NULL,
-  taste INTEGER NOT NULL CHECK (taste >= 1 AND taste <= 10),
-  texture INTEGER NOT NULL CHECK (texture >= 1 AND texture <= 10),
-  aroma INTEGER NOT NULL CHECK (aroma >= 1 AND aroma <= 10),
-  visual INTEGER NOT NULL CHECK (visual >= 1 AND visual <= 10),
-  recommend INTEGER NOT NULL CHECK (recommend >= 1 AND recommend <= 10),
-  total_score INTEGER NOT NULL,
-  summary TEXT,
-  reviewer_name TEXT DEFAULT 'Anonymous',
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Enable Row Level Security
-ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
-
--- Allow all operations for everyone (public access)
-CREATE POLICY "Allow all operations" ON reviews FOR ALL USING (true);</code>
+            <div id="diagnostic-results">
+                <h3>Diagnostic Results:</h3>
+                <pre id="diagnostic-output" style="background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; white-space: pre-wrap; min-height: 200px; overflow-y: auto;">
+Click "Run Full Diagnostics" to test the connection...
+                </pre>
             </div>
-
-            <h3 class="collapsible collapsed" onclick="toggleSection('deployment-section')" style="margin-top: 30px;">🚀 Ready for Deployment!</h3>
-            <div id="deployment-section" class="collapsible-content hidden">
-                <p><strong>Your app is ready to deploy!</strong> The database credentials are already configured.</p>
-                <ol style="line-height: 1.8; margin: 20px 0;">
-                    <li><strong>Create the reviews table</strong> using the button above</li>
-                    <li><strong>Save this HTML file</strong> as <code>index.html</code></li>
-                    <li><strong>Upload to GitHub Pages</strong> or any web hosting service</li>
-                    <li><strong>Share the link</strong> - users can start reviewing immediately!</li>
-                </ol>
-                <p><strong>Optional:</strong> You can remove the Admin tab from the HTML before deployment if you want to hide it from users.</p>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 5px;">
+                <h4>🔧 Common Issues & Solutions:</h4>
+                <ul style="line-height: 1.6;">
+                    <li><strong>API Key Expired/Invalid:</strong> Create a new Personal Access Token in Airtable</li>
+                    <li><strong>Wrong Base ID:</strong> Check the API documentation for your base</li>
+                    <li><strong>Table Not Found:</strong> Make sure your table is named exactly "Reviews"</li>
+                    <li><strong>Missing Permissions:</strong> API token needs read/write access to your base</li>
+                    <li><strong>Missing Fields:</strong> Base needs all required columns (Food Name, Taste, etc.)</li>
+                </ul>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #e7f3ff; border-radius: 5px;">
+                <h4>📋 Required Airtable Setup:</h4>
+                <p><strong>Your base must have a table called "Reviews" with these exact columns:</strong></p>
+                <ul style="columns: 2; line-height: 1.6;">
+                    <li>Food Name (Single line text)</li>
+                    <li>Reviewer Name (Single line text)</li>
+                    <li>Taste (Number)</li>
+                    <li>Texture (Number)</li>
+                    <li>Aroma (Number)</li>
+                    <li>Visual (Number)</li>
+                    <li>Recommend (Number)</li>
+                    <li>Total Score (Number)</li>
+                    <li>Summary (Long text)</li>
+                    <li>Image (Attachment)</li>
+                </ul>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // 🔧 Supabase credentials - hardcoded for easy deployment
-        const SUPABASE_URL = 'https://bxeeuimgtjtfwwyknzvx.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4ZWV1aW1ndGp0Znd3eWtuenZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2NDY5ODgsImV4cCI6MjA3MDIyMjk4OH0.XJSoZNsjCttAVGy2fsDoPVQGqj3Bej5hPE9pIbTbkj0';
+        // 🔧 Airtable credentials - configured for your base
+        const AIRTABLE_API_KEY = 'patTgRTxxUQJJejXd.545020312ff53cd826397c87d78e7f025999ca7c55f19944b6814b8cb2cc48fb';
+        const AIRTABLE_BASE_ID = 'appI7BWKmJVfQ4dou';
+        const AIRTABLE_TABLE_NAME = 'Reviews';
         
-        let supabase = null;
         let isConnected = false;
         
         // Initialize the app
         window.addEventListener('load', function() {
-            // Connect with hardcoded credentials
-            console.log('Initializing Supabase connection...');
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            console.log('🚀 Initializing Weird Foods Reviewer...');
             
-            testConnection().then(success => {
-                console.log('Connection test result:', success);
+            // Test connection immediately
+            testAirtableConnection().then(success => {
+                isConnected = success;
+                updateConnectionStatus();
+                
                 if (success) {
-                    isConnected = true;
-                    updateConnectionStatus(true);
-                    console.log('✅ Database connected successfully');
+                    console.log('✅ Connected to Airtable successfully');
                 } else {
-                    isConnected = false;
-                    updateConnectionStatus(false);
-                    console.log('❌ Database connection failed');
+                    console.log('❌ Failed to connect to Airtable - check debug tab for details');
                 }
-            }).catch(error => {
-                console.error('Connection test error:', error);
-                isConnected = false;
-                updateConnectionStatus(false);
             });
             
             initializeSliders();
         });
         
-        function updateConnectionStatus(connected) {
-            const statusDisplay = document.getElementById('connection-status-display');
-            if (statusDisplay) {
-                if (connected) {
-                    statusDisplay.innerHTML = '<span style="color: green;">✅ Connected to database</span>';
+        function updateConnectionStatus() {
+            const statusText = document.getElementById('connection-status-text');
+            if (statusText) {
+                if (isConnected) {
+                    statusText.innerHTML = '<span style="color: green;">✅ Connected to Airtable</span>';
                 } else {
-                    statusDisplay.innerHTML = '<span style="color: red;">❌ Not connected - check diagnostics below</span>';
+                    statusText.innerHTML = '<span style="color: red;">❌ Connection failed - run diagnostics below</span>';
                 }
             }
         }
         
-        async function setupTable() {
-            // This function is no longer needed for regular users
-            // Table should be created manually by the app owner in Supabase
-            console.log('Table setup function - use Supabase SQL editor to create table');
+        async function testAirtableConnection() {
+            try {
+                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}?maxRecords=1`, {
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                return response.ok;
+            } catch (error) {
+                console.error('Airtable connection test failed:', error);
+                return false;
+            }
+        }
+        
+        async function runDiagnostics() {
+            const output = document.getElementById('diagnostic-output');
+            output.textContent = 'Running diagnostics...\n';
+            
+            try {
+                // Test 1: Basic connection
+                output.textContent += '1. Testing basic connection to Airtable API...\n';
+                
+                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}?maxRecords=1`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                output.textContent += `   Status: ${response.status} ${response.statusText}\n`;
+                
+                if (response.ok) {
+                    output.textContent += '   ✅ Connection successful!\n';
+                    
+                    const data = await response.json();
+                    output.textContent += `   Records found: ${data.records.length}\n`;
+                    
+                    if (data.records.length > 0) {
+                        const fields = Object.keys(data.records[0].fields);
+                        output.textContent += `   Available fields: ${fields.join(', ')}\n`;
+                        
+                        // Check for required fields
+                        const required = ['Food Name', 'Reviewer Name', 'Taste', 'Texture', 'Aroma', 'Visual', 'Recommend', 'Total Score', 'Summary'];
+                        const missing = required.filter(field => !fields.includes(field));
+                        
+                        if (missing.length === 0) {
+                            output.textContent += '   ✅ All required fields present\n';
+                        } else {
+                            output.textContent += `   ⚠️  Missing fields: ${missing.join(', ')}\n`;
+                        }
+                    }
+                    
+                    // Test 2: Write permission
+                    output.textContent += '\n2. Testing write permissions...\n';
+                    
+                    const testRecord = {
+                        'Food Name': 'CONNECTION_TEST',
+                        'Reviewer Name': 'System',
+                        'Taste': 5,
+                        'Texture': 5,
+                        'Aroma': 5,
+                        'Visual': 5,
+                        'Recommend': 5,
+                        'Total Score': 25,
+                        'Summary': 'Test record for connection verification'
+                    };
+                    
+                    const writeResponse = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            records: [{ fields: testRecord }]
+                        })
+                    });
+                    
+                    if (writeResponse.ok) {
+                        output.textContent += '   ✅ Write permission successful\n';
+                        
+                        const writeData = await writeResponse.json();
+                        const recordId = writeData.records[0].id;
+                        
+                        // Clean up test record
+                        await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${recordId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${AIRTABLE_API_KEY}`
+                            }
+                        });
+                        
+                        output.textContent += '   ✅ Test record cleaned up\n';
+                        output.textContent += '\n🎉 ALL TESTS PASSED! Your app should work perfectly.\n';
+                        
+                        // Update connection status
+                        isConnected = true;
+                        updateConnectionStatus();
+                        
+                    } else {
+                        const writeError = await writeResponse.json();
+                        output.textContent += `   ❌ Write permission failed: ${writeError.error?.message}\n`;
+                        output.textContent += '   💡 Check your API token permissions\n';
+                    }
+                    
+                } else {
+                    const errorData = await response.json();
+                    output.textContent += `   ❌ Connection failed: ${errorData.error?.message}\n`;
+                    
+                    if (response.status === 401) {
+                        output.textContent += '   💡 SOLUTION: API key is invalid or expired\n';
+                        output.textContent += '      → Go to Airtable → Account → Developer Hub → Personal Access Tokens\n';
+                        output.textContent += '      → Create a new token with read/write permissions\n';
+                    } else if (response.status === 404) {
+                        output.textContent += '   💡 SOLUTION: Base ID or table name is incorrect\n';
+                        output.textContent += '      → Check your base ID in the API documentation\n';
+                        output.textContent += '      → Make sure your table is named exactly "Reviews"\n';
+                    } else if (response.status === 403) {
+                        output.textContent += '   💡 SOLUTION: API token lacks permissions\n';
+                        output.textContent += '      → Recreate your token with full base access\n';
+                    }
+                }
+                
+            } catch (error) {
+                output.textContent += `\n💥 Network Error: ${error.message}\n`;
+                output.textContent += '💡 This could be a browser CORS issue or network problem\n';
+            }
         }
         
         function toggleSection(sectionId) {
-            // No longer needed - collapsible sections removed
+            // No longer needed - setup section removed
         }
         
         function showError(elementId, message) {
-            // Error handling simplified for user-facing app
+            // Simplified error handling
             console.error(message);
         }
         
         function hideError(elementId) {
-            // Error handling simplified for user-facing app
+            // Simplified error handling
         }
         
         function showSuccess(elementId, message) {
-            // Success handling simplified for user-facing app
+            // Simplified success handling
             console.log(message);
         }
         
@@ -843,6 +918,49 @@ CREATE POLICY "Allow all operations" ON reviews FOR ALL USING (true);</code>
             }
         }
         
+        // Image handling functions
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // Check file size (10MB limit)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('File is too large. Please choose an image under 10MB.');
+                    input.value = '';
+                    return;
+                }
+                
+                // Check file type
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select an image file (JPG, PNG, GIF, etc.).');
+                    input.value = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function removeImage() {
+            document.getElementById('foodImage').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+        }
+        
+        // Convert image file to base64 for Airtable
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+        
         function showTab(tabName) {
             // Hide all tabs
             document.querySelectorAll('.content').forEach(tab => {
@@ -869,8 +987,8 @@ CREATE POLICY "Allow all operations" ON reviews FOR ALL USING (true);</code>
         document.getElementById('reviewForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            if (!supabase) {
-                alert('Database connection failed. Please try refreshing the page.');
+            if (!isConnected) {
+                alert('❌ Not connected to Airtable. Please check the Connection Debug tab for troubleshooting.');
                 return;
             }
             
@@ -880,29 +998,54 @@ CREATE POLICY "Allow all operations" ON reviews FOR ALL USING (true);</code>
             
             try {
                 const review = {
-                    food_name: document.getElementById('foodName').value,
-                    reviewer_name: document.getElementById('reviewerName').value || 'Anonymous',
-                    taste: parseInt(document.getElementById('taste').value),
-                    texture: parseInt(document.getElementById('texture').value),
-                    aroma: parseInt(document.getElementById('aroma').value),
-                    visual: parseInt(document.getElementById('visual').value),
-                    recommend: parseInt(document.getElementById('recommend').value),
-                    summary: document.getElementById('summary').value
+                    'Food Name': document.getElementById('foodName').value,
+                    'Reviewer Name': document.getElementById('reviewerName').value || 'Anonymous',
+                    'Taste': parseInt(document.getElementById('taste').value),
+                    'Texture': parseInt(document.getElementById('texture').value),
+                    'Aroma': parseInt(document.getElementById('aroma').value),
+                    'Visual': parseInt(document.getElementById('visual').value),
+                    'Recommend': parseInt(document.getElementById('recommend').value),
+                    'Summary': document.getElementById('summary').value
                 };
                 
-                review.total_score = review.taste + review.texture + review.aroma + review.visual + review.recommend;
+                review['Total Score'] = review.Taste + review.Texture + review.Aroma + review.Visual + review.Recommend;
                 
-                const { data, error } = await supabase
-                    .from('reviews')
-                    .insert([review]);
+                // Handle image upload if present
+                const imageFile = document.getElementById('foodImage').files[0];
+                if (imageFile) {
+                    // For Airtable, we need to upload the image as an attachment
+                    // This requires a two-step process: first create the record, then add the attachment
+                    const base64Data = await fileToBase64(imageFile);
+                    
+                    // Create attachment object for Airtable
+                    review['Image'] = [{
+                        url: base64Data,
+                        filename: imageFile.name
+                    }];
+                }
                 
-                if (error) {
-                    throw error;
+                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        records: [{
+                            fields: review
+                        }]
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || 'Failed to save review');
                 }
                 
                 // Reset form
                 this.reset();
                 document.getElementById('reviewerName').value = 'Anonymous';
+                removeImage(); // Clear image preview
                 sliders.forEach(slider => {
                     document.getElementById(slider).value = 5;
                     const description = getScoreDescription(slider, 5);
@@ -914,11 +1057,7 @@ CREATE POLICY "Allow all operations" ON reviews FOR ALL USING (true);</code>
                 
             } catch (error) {
                 console.error('Error saving review:', error);
-                if (error.code === 'PGRST116') {
-                    alert('Database table not found. The app owner needs to create the reviews table in Supabase.');
-                } else {
-                    alert('Failed to save review: ' + error.message);
-                }
+                alert(`Failed to save review: ${error.message}`);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Share Review with Community';
@@ -926,23 +1065,28 @@ CREATE POLICY "Allow all operations" ON reviews FOR ALL USING (true);</code>
         });
         
         async function loadReviews() {
-            if (!supabase) {
-                document.getElementById('reviewsList').innerHTML = '<div class="error">Database connection failed. Please refresh the page.</div>';
+            if (!isConnected) {
+                document.getElementById('reviewsList').innerHTML = '<div class="error">❌ Not connected to Airtable. Please check the Connection Debug tab.</div>';
                 return;
             }
             
             document.getElementById('reviewsList').innerHTML = '<div class="loading">Loading community reviews...</div>';
             
             try {
-                const { data: reviews, error } = await supabase
-                    .from('reviews')
-                    .select('*')
-                    .order('created_at', { ascending: false })
-                    .limit(50);
+                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}?sort[0][field]=Created Time&sort[0][direction]=desc&maxRecords=50`, {
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
                 
-                if (error) {
-                    throw error;
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || 'Failed to load reviews');
                 }
+                
+                const data = await response.json();
+                const reviews = data.records;
                 
                 const container = document.getElementById('reviewsList');
                 
@@ -951,51 +1095,56 @@ CREATE POLICY "Allow all operations" ON reviews FOR ALL USING (true);</code>
                     return;
                 }
                 
-                container.innerHTML = reviews.map(review => `
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div class="food-name">${review.food_name}</div>
-                            <div class="review-score">${review.total_score}/50</div>
+                container.innerHTML = reviews.map(record => {
+                    const fields = record.fields;
+                    const imageHtml = fields.Image && fields.Image.length > 0 
+                        ? `<div class="image-preview"><img src="${fields.Image[0].url}" alt="${fields['Food Name']}" class="review-image"></div>`
+                        : '';
+                    
+                    return `
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="food-name">${fields['Food Name'] || 'Unknown Food'}</div>
+                                <div class="review-score">${fields['Total Score'] || 0}/50</div>
+                            </div>
+                            
+                            ${imageHtml}
+                            
+                            <div class="review-details">
+                                <div class="detail-item">
+                                    <div class="detail-label">Taste</div>
+                                    <div class="detail-score">${fields.Taste || 0}/10</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Texture</div>
+                                    <div class="detail-score">${fields.Texture || 0}/10</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Aroma</div>
+                                    <div class="detail-score">${fields.Aroma || 0}/10</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Visual</div>
+                                    <div class="detail-score">${fields.Visual || 0}/10</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Recommend</div>
+                                    <div class="detail-score">${fields.Recommend || 0}/10</div>
+                                </div>
+                            </div>
+                            
+                            ${fields.Summary ? `<div class="review-summary">"${fields.Summary}"</div>` : ''}
+                            
+                            <div class="review-meta">
+                                Reviewed by <strong>${fields['Reviewer Name'] || 'Anonymous'}</strong> on ${fields['Created Time'] ? new Date(fields['Created Time']).toLocaleDateString() : 'Unknown date'}
+                            </div>
                         </div>
-                        
-                        <div class="review-details">
-                            <div class="detail-item">
-                                <div class="detail-label">Taste</div>
-                                <div class="detail-score">${review.taste}/10</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Texture</div>
-                                <div class="detail-score">${review.texture}/10</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Aroma</div>
-                                <div class="detail-score">${review.aroma}/10</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Visual</div>
-                                <div class="detail-score">${review.visual}/10</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Recommend</div>
-                                <div class="detail-score">${review.recommend}/10</div>
-                            </div>
-                        </div>
-                        
-                        ${review.summary ? `<div class="review-summary">"${review.summary}"</div>` : ''}
-                        
-                        <div class="review-meta">
-                            Reviewed by <strong>${review.reviewer_name}</strong> on ${new Date(review.created_at).toLocaleDateString()}
-                        </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
                 
             } catch (error) {
                 console.error('Error loading reviews:', error);
-                if (error.code === 'PGRST116') {
-                    document.getElementById('reviewsList').innerHTML = '<div class="error">No reviews table found. The app owner needs to set up the database.</div>';
-                } else {
-                    document.getElementById('reviewsList').innerHTML = '<div class="error">Failed to load reviews: ' + error.message + '</div>';
-                }
+                document.getElementById('reviewsList').innerHTML = `<div class="error">Failed to load reviews: ${error.message}</div>`;
             }
         }
     </script>
