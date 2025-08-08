@@ -1,9 +1,89 @@
         async function testConnection() {
             try {
+                console.log('Testing Supabase connection...');
                 const { data, error } = await supabase.from('reviews').select('*').limit(1);
-                return !error || error.code === 'PGRST116'; // Table might not exist yet, that's ok
+                
+                if (error) {
+                    console.error('Connection test error:', error);
+                    if (error.code === 'PGRST116') {
+                        console.log('Table does not exist, but connection is working');
+                        return true; // Connection works, table just doesn't exist yet
+                    }
+                    return false;
+                }
+                
+                console.log('Connection test successful, got data:', data);
+                return true;
             } catch (error) {
+                console.error('Connection test failed:', error);
                 return false;
+            }
+        }
+        
+        async function testDatabaseConnection() {
+            const debugOutput = document.getElementById('debug-output');
+            debugOutput.textContent = 'Running connection tests...\n';
+            
+            try {
+                // Test 1: Basic connection
+                debugOutput.textContent += '1. Testing Supabase client initialization...\n';
+                if (supabase) {
+                    debugOutput.textContent += '   ✅ Supabase client created\n';
+                } else {
+                    debugOutput.textContent += '   ❌ Supabase client failed to initialize\n';
+                    return;
+                }
+                
+                // Test 2: Simple query
+                debugOutput.textContent += '2. Testing database query...\n';
+                const { data, error } = await supabase.from('reviews').select('*').limit(1);
+                
+                if (error) {
+                    debugOutput.textContent += `   ❌ Query failed: ${error.message}\n`;
+                    debugOutput.textContent += `   Error code: ${error.code}\n`;
+                    debugOutput.textContent += `   Error details: ${error.details}\n`;
+                    
+                    if (error.code === 'PGRST116') {
+                        debugOutput.textContent += '   💡 This means the "reviews" table does not exist\n';
+                        debugOutput.textContent += '   📝 You need to create the table in Supabase SQL Editor\n';
+                    }
+                } else {
+                    debugOutput.textContent += '   ✅ Query successful\n';
+                    debugOutput.textContent += `   Found ${data ? data.length : 0} reviews\n`;
+                }
+                
+                // Test 3: Insert test
+                debugOutput.textContent += '3. Testing insert capability...\n';
+                const { data: insertData, error: insertError } = await supabase
+                    .from('reviews')
+                    .insert([{
+                        food_name: 'CONNECTION_TEST',
+                        taste: 5,
+                        texture: 5,
+                        aroma: 5,
+                        visual: 5,
+                        recommend: 5,
+                        total_score: 25,
+                        summary: 'Connection test',
+                        reviewer_name: 'System'
+                    }])
+                    .select();
+                
+                if (insertError) {
+                    debugOutput.textContent += `   ❌ Insert failed: ${insertError.message}\n`;
+                } else {
+                    debugOutput.textContent += '   ✅ Insert successful\n';
+                    
+                    // Clean up test record
+                    await supabase.from('reviews').delete().eq('food_name', 'CONNECTION_TEST');
+                    debugOutput.textContent += '   ✅ Test record cleaned up\n';
+                }
+                
+                debugOutput.textContent += '\n🎉 Connection test complete!\n';
+                
+            } catch (error) {
+                debugOutput.textContent += `\n💥 Unexpected error: ${error.message}\n`;
+                console.error('Debug test error:', error);
             }
         }<!DOCTYPE html>
 <html lang="en">
@@ -397,6 +477,7 @@
             <button class="tab active" onclick="showTab('review')">New Review</button>
             <button class="tab" onclick="showTab('history')">Community Reviews</button>
             <button class="tab" onclick="showTab('guide')">Scoring Guide</button>
+            <button class="tab" onclick="showTab('debug')">Connection Status</button>
         </div>
         
         <div id="review-tab" class="content">
@@ -589,23 +670,38 @@ CREATE POLICY "Allow all operations" ON reviews FOR ALL USING (true);</code>
         // Initialize the app
         window.addEventListener('load', function() {
             // Connect with hardcoded credentials
+            console.log('Initializing Supabase connection...');
             supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             
             testConnection().then(success => {
+                console.log('Connection test result:', success);
                 if (success) {
                     isConnected = true;
                     updateConnectionStatus(true);
+                    console.log('✅ Database connected successfully');
                 } else {
+                    isConnected = false;
                     updateConnectionStatus(false);
+                    console.log('❌ Database connection failed');
                 }
+            }).catch(error => {
+                console.error('Connection test error:', error);
+                isConnected = false;
+                updateConnectionStatus(false);
             });
             
             initializeSliders();
         });
         
         function updateConnectionStatus(connected) {
-            // Connection status is not displayed to users anymore
-            // App automatically connects in the background
+            const statusDisplay = document.getElementById('connection-status-display');
+            if (statusDisplay) {
+                if (connected) {
+                    statusDisplay.innerHTML = '<span style="color: green;">✅ Connected to database</span>';
+                } else {
+                    statusDisplay.innerHTML = '<span style="color: red;">❌ Not connected - check diagnostics below</span>';
+                }
+            }
         }
         
         async function setupTable() {
