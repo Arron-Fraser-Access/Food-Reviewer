@@ -921,16 +921,78 @@
                     if (!name || !email) {
                         document.getElementById('authError').textContent = 'Please fill in all fields';
                         document.getElementById('authError').style.display = 'block';
+                        document.getElementById('authSuccess').style.display = 'none';
                         return;
                     }
                     
                     if (name.length < 2) {
                         document.getElementById('authError').textContent = 'Name must be at least 2 characters';
                         document.getElementById('authError').style.display = 'block';
+                        document.getElementById('authSuccess').style.display = 'none';
                         return;
                     }
                     
-                    registerUser();
+                    if (!email.includes('@')) {
+                        document.getElementById('authError').textContent = 'Please enter a valid email address';
+                        document.getElementById('authError').style.display = 'block';
+                        document.getElementById('authSuccess').style.display = 'none';
+                        return;
+                    }
+                    
+                    // Show loading state
+                    var btn = document.getElementById('registerBtn');
+                    btn.disabled = true;
+                    btn.textContent = 'Creating Account...';
+                    
+                    // Generate access code
+                    var accessCode = Math.floor(100000 + Math.random() * 900000).toString();
+                    
+                    // Create user data
+                    var userData = {
+                        'Name': name,
+                        'Email': email,
+                        'Access Code': accessCode,
+                        'Joined Date': new Date().toISOString()
+                    };
+                    
+                    // Save to Airtable
+                    fetch('https://api.airtable.com/v0/appI7BWKmJVfQ4dou/Users', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer patTgRTxxUQJJejXd.545020312ff53cd826397c87d78e7f025999ca7c55f19944b6814b8cb2cc48fb',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            records: [{ fields: userData }]
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Registration failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Show success
+                        document.getElementById('generatedCode').textContent = accessCode;
+                        document.getElementById('codeDisplay').style.display = 'block';
+                        document.getElementById('authSuccess').textContent = 'Account created! Save your access code and switch to Login tab.';
+                        document.getElementById('authSuccess').style.display = 'block';
+                        document.getElementById('authError').style.display = 'none';
+                        
+                        // Clear form
+                        document.getElementById('registerName').value = '';
+                        document.getElementById('registerEmail').value = '';
+                    })
+                    .catch(error => {
+                        document.getElementById('authError').textContent = 'Registration failed: ' + error.message;
+                        document.getElementById('authError').style.display = 'block';
+                        document.getElementById('authSuccess').style.display = 'none';
+                    })
+                    .finally(() => {
+                        btn.disabled = false;
+                        btn.textContent = 'Create Account & Get Access Code';
+                    });
                 " class="login-btn" id="registerBtn">Create Account & Get Access Code</button>
                 
                 <div id="codeDisplay" class="code-display" style="display: none;">
