@@ -968,7 +968,9 @@
                     })
                     .then(response => {
                         if (!response.ok) {
-                            throw new Error('Registration failed');
+                            return response.json().then(errorData => {
+                                throw new Error(errorData.error?.message || 'HTTP ' + response.status);
+                            });
                         }
                         return response.json();
                     })
