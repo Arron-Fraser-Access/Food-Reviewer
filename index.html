@@ -859,8 +859,28 @@
             <p>Create an account or login to start reviewing bizarre foods</p>
             
             <div class="auth-tabs">
-                <button class="auth-tab active" onclick="switchAuthTab('login', this)">Login</button>
-                <button class="auth-tab" onclick="switchAuthTab('register', this)">Register</button>
+                <button class="auth-tab active" id="loginTab" onclick="
+                    document.getElementById('loginTab').classList.add('active');
+                    document.getElementById('registerTab').classList.remove('active');
+                    document.getElementById('loginForm').classList.add('active');
+                    document.getElementById('registerForm').classList.remove('active');
+                    document.getElementById('authError').style.display = 'none';
+                    document.getElementById('authSuccess').style.display = 'none';
+                    var codeDisplay = document.getElementById('codeDisplay');
+                    if (codeDisplay) codeDisplay.style.display = 'none';
+                ">Login</button>
+                <button class="auth-tab" id="registerTab" onclick="
+                    document.getElementById('loginTab').classList.remove('active');
+                    document.getElementById('registerTab').classList.add('active');
+                    document.getElementById('loginForm').classList.remove('active');
+                    document.getElementById('registerForm').classList.add('active');
+                    document.getElementById('authError').style.display = 'none';
+                    document.getElementById('authSuccess').style.display = 'none';
+                    var attemptsWarning = document.getElementById('attemptsWarning');
+                    if (attemptsWarning) attemptsWarning.style.display = 'none';
+                    var lockoutWarning = document.getElementById('lockoutWarning');
+                    if (lockoutWarning) lockoutWarning.style.display = 'none';
+                ">Register</button>
             </div>
             
             <div id="authError" class="auth-error"></div>
@@ -876,14 +896,42 @@
                     <p>Too many failed attempts. Please wait:</p>
                     <div class="lockout-timer" id="lockoutTimer"></div>
                 </div>
-                <button onclick="loginUser()" class="login-btn" id="loginBtn">Login</button>
+                <button onclick="
+                    var email = document.getElementById('loginEmail').value.trim().toLowerCase();
+                    var code = document.getElementById('loginCode').value.trim();
+                    
+                    if (!email || !code) {
+                        document.getElementById('authError').textContent = 'Please enter both email and access code';
+                        document.getElementById('authError').style.display = 'block';
+                        return;
+                    }
+                    
+                    loginUser();
+                " class="login-btn" id="loginBtn">Login</button>
             </div>
             
             <!-- Register Form -->
             <div id="registerForm" class="auth-form">
                 <input type="text" id="registerName" class="login-input" placeholder="Your Name" required maxlength="30">
                 <input type="email" id="registerEmail" class="login-input" placeholder="Email address" required>
-                <button onclick="registerUser()" class="login-btn" id="registerBtn">Create Account & Get Access Code</button>
+                <button onclick="
+                    var name = document.getElementById('registerName').value.trim();
+                    var email = document.getElementById('registerEmail').value.trim().toLowerCase();
+                    
+                    if (!name || !email) {
+                        document.getElementById('authError').textContent = 'Please fill in all fields';
+                        document.getElementById('authError').style.display = 'block';
+                        return;
+                    }
+                    
+                    if (name.length < 2) {
+                        document.getElementById('authError').textContent = 'Name must be at least 2 characters';
+                        document.getElementById('authError').style.display = 'block';
+                        return;
+                    }
+                    
+                    registerUser();
+                " class="login-btn" id="registerBtn">Create Account & Get Access Code</button>
                 
                 <div id="codeDisplay" class="code-display" style="display: none;">
                     <h3>🔑 Your Access Code:</h3>
