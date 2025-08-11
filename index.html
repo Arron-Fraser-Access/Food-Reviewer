@@ -46,47 +46,47 @@
             position: absolute;
             top: 15px;
             right: 20px;
-            width: 70px;
-            height: 45px;
+            width: 60px;
+            height: 40px;
         }
         
         .bus {
-            width: 50px;
-            height: 20px;
+            width: 45px;
+            height: 18px;
             background: #dc2626;
-            border-radius: 6px;
+            border-radius: 5px;
             position: relative;
         }
         
         .bus::before {
             content: '';
             position: absolute;
-            top: -6px;
-            left: 4px;
-            right: 4px;
-            height: 6px;
+            top: -5px;
+            left: 3px;
+            right: 3px;
+            height: 5px;
             background: #b91c1c;
-            border-radius: 3px 3px 0 0;
+            border-radius: 2px 2px 0 0;
         }
         
         .bus::after {
             content: '';
             position: absolute;
-            bottom: -4px;
-            left: 6px;
-            width: 6px;
-            height: 6px;
+            bottom: -3px;
+            left: 5px;
+            width: 5px;
+            height: 5px;
             background: #374151;
             border-radius: 50%;
-            box-shadow: 32px 0 0 #374151;
+            box-shadow: 28px 0 0 #374151;
         }
         
         .flames {
             position: absolute;
-            top: -12px;
-            left: -4px;
-            right: -4px;
-            height: 15px;
+            top: -10px;
+            left: -3px;
+            right: -3px;
+            height: 12px;
         }
         
         .flame {
@@ -97,23 +97,23 @@
         }
         
         .flame:nth-child(1) {
-            left: 8px;
-            width: 8px;
-            height: 12px;
+            left: 6px;
+            width: 6px;
+            height: 10px;
             animation-delay: 0s;
         }
         
         .flame:nth-child(2) {
-            left: 20px;
-            width: 10px;
-            height: 15px;
+            left: 16px;
+            width: 8px;
+            height: 12px;
             animation-delay: 0.3s;
         }
         
         .flame:nth-child(3) {
-            left: 32px;
-            width: 7px;
-            height: 11px;
+            left: 28px;
+            width: 5px;
+            height: 9px;
             animation-delay: 0.6s;
         }
         
@@ -158,7 +158,7 @@
         }
         
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 15px;
         }
         
         .form-group label {
@@ -169,7 +169,7 @@
             font-size: 0.9rem;
         }
         
-        .form-group input, .form-group textarea {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 10px;
             border: 2px solid #e9ecef;
@@ -178,7 +178,7 @@
             transition: border-color 0.3s ease;
         }
         
-        .form-group input:focus, .form-group textarea:focus {
+        .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: #dc2626;
             box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
@@ -239,16 +239,6 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
         
-        .rating-slider::-moz-range-thumb {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #dc2626, #1d4ed8);
-            cursor: pointer;
-            border: 2px solid white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        }
-        
         .rating-display {
             text-align: center;
             font-weight: 600;
@@ -271,10 +261,6 @@
         .final-score h3 {
             font-size: 1.4rem;
             margin-bottom: 5px;
-        }
-        
-        .final-score p {
-            font-size: 0.9rem;
         }
         
         .btn {
@@ -310,16 +296,9 @@
             border: 2px solid #e9ecef;
         }
         
-        .filter-controls h3 {
-            color: #1e40af;
-            margin-bottom: 12px;
-            text-align: center;
-            font-size: 1.1rem;
-        }
-        
-        .filter-row {
+        .filter-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 12px;
             margin-bottom: 15px;
         }
@@ -333,16 +312,15 @@
             font-weight: 600;
             color: #1e40af;
             margin-bottom: 5px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         
         .filter-group select, .filter-group input {
             padding: 8px;
             border: 2px solid #e9ecef;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             background: white;
-            transition: border-color 0.3s ease;
         }
         
         .filter-group select:focus, .filter-group input:focus {
@@ -362,29 +340,15 @@
             border: none;
             padding: 8px 16px;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        
-        .filter-btn:hover {
-            transform: translateY(-1px);
-        }
-        
-        .results-info {
-            text-align: center;
-            color: #666;
-            margin-bottom: 15px;
-            font-style: italic;
-            font-size: 0.9rem;
         }
         
         .review-card {
             background: white;
             border-radius: 8px;
             padding: 15px;
-            margin-bottom: 15px;
             border-left: 4px solid #dc2626;
             box-shadow: 0 2px 8px rgba(29, 78, 216, 0.1);
             transition: transform 0.2s ease;
@@ -399,7 +363,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .food-name {
@@ -414,15 +378,41 @@
             color: #dc2626;
         }
         
-        .review-image {
-            width: 100%;
-            max-width: 180px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin: 8px auto;
-            border: 2px solid #e9ecef;
-            display: block;
+        .category-badges {
+            margin: 8px 0;
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: 6px;
+        }
+        
+        .category-food {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1e40af;
+            border: 1px solid #3b82f6;
+        }
+        
+        .category-drink {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+            border: 1px solid #f59e0b;
+        }
+        
+        .type-weird {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            color: #dc2626;
+            border: 1px solid #f87171;
+        }
+        
+        .type-interesting {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            color: #166534;
+            border: 1px solid #4ade80;
         }
         
         .cost-display {
@@ -446,14 +436,12 @@
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
             margin: 8px 0;
         }
         
         .store-button:hover {
-            transform: translateY(-1px);
             color: white;
             text-decoration: none;
         }
@@ -482,7 +470,7 @@
         .detail-score {
             font-weight: 600;
             color: #1d4ed8;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         
         .review-summary {
@@ -492,126 +480,6 @@
             padding-top: 10px;
             margin-top: 10px;
             font-size: 0.9rem;
-        }
-        
-        .vote-section {
-            border-top: 1px solid #e9ecef;
-            padding-top: 10px;
-            margin-top: 10px;
-        }
-        
-        .vote-buttons {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        
-        .vote-btn {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 4px 8px;
-            border: 1px solid #e9ecef;
-            border-radius: 4px;
-            background: white;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .vote-btn:hover {
-            transform: translateY(-1px);
-        }
-        
-        .vote-btn.thumbs-up {
-            color: #059669;
-        }
-        
-        .vote-btn.thumbs-up:hover {
-            background: #ecfdf5;
-            border-color: #059669;
-        }
-        
-        .vote-btn.thumbs-down {
-            color: #dc2626;
-        }
-        
-        .vote-btn.thumbs-down:hover {
-            background: #fef2f2;
-            border-color: #dc2626;
-        }
-        
-        .vote-stats {
-            font-size: 0.75rem;
-            color: #666;
-            margin-left: 8px;
-        }
-        
-        .comment-toggle {
-            background: none;
-            border: none;
-            color: #1d4ed8;
-            cursor: pointer;
-            font-size: 0.8rem;
-            text-decoration: underline;
-            padding: 0;
-        }
-        
-        .comment-form {
-            margin-top: 8px;
-            display: none;
-        }
-        
-        .comment-form.show {
-            display: block;
-        }
-        
-        .comment-input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #e9ecef;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            min-height: 50px;
-            resize: vertical;
-        }
-        
-        .comment-submit {
-            background: #1d4ed8;
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            margin-top: 5px;
-        }
-        
-        .existing-comments {
-            margin-top: 8px;
-            max-height: 100px;
-            overflow-y: auto;
-        }
-        
-        .comment-item {
-            background: #f1f5f9;
-            padding: 6px;
-            border-radius: 4px;
-            margin-bottom: 4px;
-            font-size: 0.75rem;
-            border-left: 2px solid #1d4ed8;
-        }
-        
-        .comment-author {
-            font-weight: 600;
-            color: #1d4ed8;
-            margin-bottom: 2px;
-        }
-        
-        .comment-text {
-            color: #475569;
         }
         
         .review-meta {
@@ -626,12 +494,6 @@
             padding: 30px;
             font-style: italic;
             color: #666;
-        }
-        
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            border-radius: 6px;
         }
         
         .hidden {
@@ -662,13 +524,31 @@
         
         <div id="review-tab" class="content">
             <div class="form-group">
-                <label for="reviewerName">Your Name (optional):</label>
-                <input type="text" id="reviewerName" placeholder="Anonymous" value="Anonymous">
+                <label for="reviewerName">Your Name:</label>
+                <input type="text" id="reviewerName" placeholder="Enter your name" required>
             </div>
             
             <div class="form-group">
-                <label for="foodName">Food Name:</label>
-                <input type="text" id="foodName" required placeholder="Enter the weird food you're reviewing...">
+                <label for="foodName">Food/Drink Name:</label>
+                <input type="text" id="foodName" required placeholder="Enter the item you're reviewing...">
+            </div>
+            
+            <div class="form-group">
+                <label for="itemCategory">Category:</label>
+                <select id="itemCategory" required>
+                    <option value="">Select category...</option>
+                    <option value="Food">🍽️ Food</option>
+                    <option value="Drink">🥤 Drink</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="itemType">Type:</label>
+                <select id="itemType" required>
+                    <option value="">Select type...</option>
+                    <option value="Weird">🤯 Weird</option>
+                    <option value="Interesting">🤔 Interesting</option>
+                </select>
             </div>
             
             <div class="form-group">
@@ -679,17 +559,7 @@
             <div class="form-group">
                 <label for="productLink">Store/Product Link (optional):</label>
                 <input type="url" id="productLink" placeholder="https://example.com/product">
-                <small>Where others can buy this weird food</small>
-            </div>
-            
-            <div class="form-group">
-                <label for="foodImage">Food Photo (optional):</label>
-                <input type="file" id="foodImage" accept="image/*" onchange="previewImage(this)">
-                <div id="imagePreview" style="margin-top: 8px; display: none;">
-                    <img id="previewImg" style="max-width: 150px; max-height: 150px; border-radius: 6px; border: 2px solid #e9ecef;">
-                    <button type="button" onclick="removeImage()" style="display: block; margin-top: 5px; padding: 4px 8px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">Remove</button>
-                </div>
-                <small>Max 10MB. JPG, PNG, GIF supported.</small>
+                <small>Where others can buy this item</small>
             </div>
             
             <div class="rating-grid">
@@ -726,7 +596,7 @@
             
             <div class="final-score">
                 <h3 id="finalScore">25/50</h3>
-                <p id="scoreCategory">Moderate weird food experience</p>
+                <p id="scoreCategory">Moderate experience</p>
             </div>
             
             <div class="form-group">
@@ -739,23 +609,39 @@
         
         <div id="history-tab" class="content hidden">
             <div class="filter-controls">
-                <h3>🔍 Filter & Sort Reviews</h3>
+                <h3 style="color: #1e40af; margin-bottom: 12px; text-align: center; font-size: 1.1rem;">🔍 Filter & Sort Reviews</h3>
                 
-                <div class="filter-row">
+                <div class="filter-grid">
                     <div class="filter-group">
-                        <label for="sortBy">Sort By:</label>
-                        <select id="sortBy" onchange="applyFilters()">
-                            <option value="newest">🕐 Newest First</option>
-                            <option value="oldest">⏰ Oldest First</option>
-                            <option value="highest">🏆 Highest Score</option>
-                            <option value="lowest">🎯 Lowest Score</option>
-                            <option value="food-name">🍽️ Food A-Z</option>
-                            <option value="reviewer">👤 Reviewer A-Z</option>
+                        <label>Category:</label>
+                        <select id="filterCategory" onchange="applyFilters()">
+                            <option value="all">All Categories</option>
+                            <option value="Food">🍽️ Food</option>
+                            <option value="Drink">🥤 Drink</option>
                         </select>
                     </div>
                     
                     <div class="filter-group">
-                        <label for="filterScore">Score Range:</label>
+                        <label>Type:</label>
+                        <select id="filterType" onchange="applyFilters()">
+                            <option value="all">All Types</option>
+                            <option value="Weird">🤯 Weird</option>
+                            <option value="Interesting">🤔 Interesting</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Sort By:</label>
+                        <select id="sortBy" onchange="applyFilters()">
+                            <option value="newest">🕐 Newest</option>
+                            <option value="highest">🏆 Highest Score</option>
+                            <option value="lowest">🎯 Lowest Score</option>
+                            <option value="food-name">🍽️ Name A-Z</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Score Range:</label>
                         <select id="filterScore" onchange="applyFilters()">
                             <option value="all">All Scores</option>
                             <option value="40-50">Outstanding (40-50)</option>
@@ -767,15 +653,8 @@
                     </div>
                     
                     <div class="filter-group">
-                        <label for="filterFood">Search Food:</label>
-                        <input type="text" id="filterFood" placeholder="Type food name..." oninput="applyFilters()">
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="filterReviewer">Reviewer:</label>
-                        <select id="filterReviewer" onchange="applyFilters()">
-                            <option value="all">All Reviewers</option>
-                        </select>
+                        <label>Search:</label>
+                        <input type="text" id="filterFood" placeholder="Type name..." oninput="applyFilters()">
                     </div>
                 </div>
                 
@@ -785,8 +664,9 @@
                 </div>
             </div>
             
-            <div class="results-info" id="resultsInfo">Loading reviews...</div>
-            <div id="reviewsList"><div class="loading">Loading community reviews...</div></div>
+            <div id="reviewsList">
+                <div class="loading">Loading community reviews...</div>
+            </div>
         </div>
         
         <div id="guide-tab" class="content hidden">
@@ -848,17 +728,11 @@
     </div>
 
     <script>
-        const AIRTABLE_API_KEY = (function(){
-            const parts = ['patTgRTxxUQJJejXd', '545020312ff53cd826397c87d78e7f025999ca7c55f19944b6814b8cb2cc48fb'];
-            return parts.join('.');
-        })();
+        const AIRTABLE_API_KEY = 'patTgRTxxUQJJejXd.545020312ff53cd826397c87d78e7f025999ca7c55f19944b6814b8cb2cc48fb';
         const AIRTABLE_BASE_ID = 'appI7BWKmJVfQ4dou';
         const AIRTABLE_TABLE_NAME = 'Reviews';
         
         let allReviews = [];
-        let filteredReviews = [];
-        
-        window.addEventListener('load', initializeSliders);
         
         const sliders = ['taste', 'texture', 'aroma', 'visual', 'recommend'];
         
@@ -870,26 +744,26 @@
                 element.addEventListener('input', function() {
                     const value = parseInt(this.value);
                     const description = getScoreDescription(slider, value);
-                    display.innerHTML = `<strong>${value}/10</strong><br><small style="color: #666; font-size: 0.75rem;">${description}</small>`;
+                    display.innerHTML = `<strong>${value}/10</strong><br><small style="color: #666; font-size: 0.7rem;">${description}</small>`;
                     updateFinalScore();
                 });
                 
                 const value = parseInt(element.value);
                 const description = getScoreDescription(slider, value);
-                display.innerHTML = `<strong>${value}/10</strong><br><small style="color: #666; font-size: 0.75rem;">${description}</small>`;
+                display.innerHTML = `<strong>${value}/10</strong><br><small style="color: #666; font-size: 0.7rem;">${description}</small>`;
             });
             updateFinalScore();
         }
         
         function getScoreDescription(category, score) {
             const descriptions = {
-                taste: { 10: "Surprisingly delicious", 9: "Surprisingly delicious", 8: "Very good", 7: "Very good", 6: "Decent", 5: "Decent", 4: "Underwhelming", 3: "Underwhelming", 2: "Unpleasant", 1: "Inedible" },
-                texture: { 10: "Perfect texture", 9: "Perfect texture", 8: "Good mouthfeel", 7: "Good mouthfeel", 6: "Acceptable", 5: "Acceptable", 4: "Off-putting", 3: "Off-putting", 2: "Very strange", 1: "Revolting" },
-                aroma: { 10: "Enticing smell", 9: "Enticing smell", 8: "Pleasant", 7: "Pleasant", 6: "Mild off-putting", 5: "Mild off-putting", 4: "Unpleasant odor", 3: "Unpleasant odor", 2: "Very bad smell", 1: "Nauseating" },
-                visual: { 10: "Looks appetizing", 9: "Looks appetizing", 8: "Interesting looking", 7: "Interesting looking", 6: "Strange but okay", 5: "Strange but okay", 4: "Unappealing", 3: "Unappealing", 2: "Unappetizing", 1: "Visually revolting" },
-                recommend: { 10: "Everyone should try", 9: "Everyone should try", 8: "Yes, to adventurous eaters", 7: "Yes, to adventurous eaters", 6: "Maybe", 5: "Maybe", 4: "Very adventurous only", 3: "Very adventurous only", 2: "No", 1: "Warn people away" }
+                taste: { 10: "Surprisingly delicious", 8: "Very good", 6: "Decent", 4: "Underwhelming", 2: "Unpleasant", 1: "Inedible" },
+                texture: { 10: "Perfect texture", 8: "Good mouthfeel", 6: "Acceptable", 4: "Off-putting", 2: "Very strange", 1: "Revolting" },
+                aroma: { 10: "Enticing smell", 8: "Pleasant", 6: "Mild off-putting", 4: "Unpleasant odor", 2: "Very bad smell", 1: "Nauseating" },
+                visual: { 10: "Looks appetizing", 8: "Interesting looking", 6: "Strange but okay", 4: "Unappealing", 2: "Unappetizing", 1: "Visually revolting" },
+                recommend: { 10: "Everyone should try", 8: "Adventurous eaters", 6: "Maybe", 4: "Very adventurous only", 2: "No", 1: "Warn people away" }
             };
-            return descriptions[category][score] || "";
+            return descriptions[category][score] || descriptions[category][Math.floor(score)] || "";
         }
 
         function updateFinalScore() {
@@ -898,8 +772,8 @@
             document.getElementById('finalScore').textContent = total + '/50';
             
             const category = document.getElementById('scoreCategory');
-            if (total >= 40) category.textContent = "Outstanding weird food experience!";
-            else if (total >= 30) category.textContent = "Good weird food experience";
+            if (total >= 40) category.textContent = "Outstanding experience!";
+            else if (total >= 30) category.textContent = "Good experience";
             else if (total >= 20) category.textContent = "Challenging but edible";
             else if (total >= 10) category.textContent = "Difficult experience";
             else category.textContent = "Avoid at all costs!";
@@ -914,36 +788,23 @@
             if (tabName === 'history') loadReviews();
         }
         
-        function previewImage(input) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                if (file.size > 10 * 1024 * 1024) {
-                    alert('File too large. Max 10MB.');
-                    input.value = '';
-                    return;
-                }
-                if (!file.type.startsWith('image/')) {
-                    alert('Please select an image file.');
-                    input.value = '';
-                    return;
-                }
-                
-                const reader = new FileReader();
-                reader.onload = e => {
-                    document.getElementById('previewImg').src = e.target.result;
-                    document.getElementById('imagePreview').style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-        
-        function removeImage() {
-            document.getElementById('foodImage').value = '';
-            document.getElementById('imagePreview').style.display = 'none';
-        }
-        
         async function submitReview() {
             const submitBtn = document.getElementById('submitBtn');
+            
+            // Validate required fields
+            if (!document.getElementById('foodName').value) {
+                alert('Please enter a food/drink name');
+                return;
+            }
+            if (!document.getElementById('itemCategory').value) {
+                alert('Please select a category (Food or Drink)');
+                return;
+            }
+            if (!document.getElementById('itemType').value) {
+                alert('Please select a type (Weird or Interesting)');
+                return;
+            }
+            
             submitBtn.disabled = true;
             submitBtn.textContent = 'Saving...';
             
@@ -951,6 +812,8 @@
                 const review = {
                     'Food Name': document.getElementById('foodName').value,
                     'Reviewer Name': document.getElementById('reviewerName').value || 'Anonymous',
+                    'Category': document.getElementById('itemCategory').value,
+                    'Type': document.getElementById('itemType').value,
                     'Cost': document.getElementById('foodCost').value,
                     'Product Link': document.getElementById('productLink').value,
                     'Taste': parseInt(document.getElementById('taste').value),
@@ -958,10 +821,7 @@
                     'Aroma': parseInt(document.getElementById('aroma').value),
                     'Visual': parseInt(document.getElementById('visual').value),
                     'Recommend': parseInt(document.getElementById('recommend').value),
-                    'Summary': document.getElementById('summary').value,
-                    'Thumbs Up': 0,
-                    'Thumbs Down': 0,
-                    'Comments': ''
+                    'Summary': document.getElementById('summary').value
                 };
                 
                 review['Total Score'] = review.Taste + review.Texture + review.Aroma + review.Visual + review.Recommend;
@@ -976,28 +836,29 @@
                 });
                 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error?.message || 'Failed to save');
+                    throw new Error('Failed to save review');
                 }
                 
                 // Reset form
-                ['foodName', 'foodCost', 'productLink', 'summary'].forEach(id => 
-                    document.getElementById(id).value = ''
-                );
-                document.getElementById('reviewerName').value = 'Anonymous';
-                removeImage();
+                document.getElementById('foodName').value = '';
+                document.getElementById('reviewerName').value = '';
+                document.getElementById('itemCategory').value = '';
+                document.getElementById('itemType').value = '';
+                document.getElementById('foodCost').value = '';
+                document.getElementById('productLink').value = '';
+                document.getElementById('summary').value = '';
                 
                 sliders.forEach(slider => {
                     document.getElementById(slider).value = 5;
                     const description = getScoreDescription(slider, 5);
-                    document.getElementById(slider + '-display').innerHTML = `<strong>5/10</strong><br><small style="color: #666; font-size: 0.75rem;">${description}</small>`;
+                    document.getElementById(slider + '-display').innerHTML = `<strong>5/10</strong><br><small style="color: #666; font-size: 0.7rem;">${description}</small>`;
                 });
                 updateFinalScore();
                 
                 alert('Review saved successfully!');
                 
             } catch (error) {
-                alert(`Failed to save: ${error.message}`);
+                alert('Failed to save review: ' + error.message);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Share Review with Community';
@@ -1008,7 +869,7 @@
             document.getElementById('reviewsList').innerHTML = '<div class="loading">Loading reviews...</div>';
             
             try {
-                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}?maxRecords=100`, {
+                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}?maxRecords=50`, {
                     headers: {
                         'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
                         'Content-Type': 'application/json'
@@ -1024,7 +885,6 @@
                     createdTime: record.createdTime
                 }));
                 
-                populateReviewerFilter();
                 applyFilters();
                 
             } catch (error) {
@@ -1032,53 +892,47 @@
             }
         }
         
-        function populateReviewerFilter() {
-            const select = document.getElementById('filterReviewer');
-            const reviewers = [...new Set(allReviews.map(r => r['Reviewer Name'] || 'Anonymous'))].sort();
-            select.innerHTML = '<option value="all">All Reviewers</option>';
-            reviewers.forEach(reviewer => {
-                const option = document.createElement('option');
-                option.value = reviewer;
-                option.textContent = reviewer;
-                select.appendChild(option);
-            });
-        }
-        
         function applyFilters() {
             let filtered = [...allReviews];
             
+            // Filter by category
+            const categoryFilter = document.getElementById('filterCategory').value;
+            if (categoryFilter !== 'all') {
+                filtered = filtered.filter(r => (r.Category || '') === categoryFilter);
+            }
+            
+            // Filter by type
+            const typeFilter = document.getElementById('filterType').value;
+            if (typeFilter !== 'all') {
+                filtered = filtered.filter(r => (r.Type || '') === typeFilter);
+            }
+            
+            // Filter by score
             const scoreFilter = document.getElementById('filterScore').value;
             if (scoreFilter !== 'all') {
                 const [min, max] = scoreFilter.split('-').map(Number);
                 filtered = filtered.filter(r => (r['Total Score'] || 0) >= min && (r['Total Score'] || 0) <= max);
             }
             
+            // Filter by search
             const foodFilter = document.getElementById('filterFood').value.toLowerCase().trim();
             if (foodFilter) {
                 filtered = filtered.filter(r => (r['Food Name'] || '').toLowerCase().includes(foodFilter));
             }
             
-            const reviewerFilter = document.getElementById('filterReviewer').value;
-            if (reviewerFilter !== 'all') {
-                filtered = filtered.filter(r => (r['Reviewer Name'] || 'Anonymous') === reviewerFilter);
-            }
-            
+            // Sort
             const sortBy = document.getElementById('sortBy').value;
             filtered.sort((a, b) => {
                 switch (sortBy) {
                     case 'newest': return new Date(b.createdTime || 0) - new Date(a.createdTime || 0);
-                    case 'oldest': return new Date(a.createdTime || 0) - new Date(b.createdTime || 0);
                     case 'highest': return (b['Total Score'] || 0) - (a['Total Score'] || 0);
                     case 'lowest': return (a['Total Score'] || 0) - (b['Total Score'] || 0);
                     case 'food-name': return (a['Food Name'] || '').localeCompare(b['Food Name'] || '');
-                    case 'reviewer': return (a['Reviewer Name'] || 'Anonymous').localeCompare(b['Reviewer Name'] || 'Anonymous');
                     default: return 0;
                 }
             });
             
-            filteredReviews = filtered;
             displayReviews(filtered);
-            updateResultsInfo();
         }
         
         function displayReviews(reviews) {
@@ -1090,41 +944,26 @@
             }
             
             container.innerHTML = `
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 15px;">
                     ${reviews.map(review => {
-                        const imageHtml = review.Image && review.Image.length > 0 
-                            ? `<img src="${review.Image[0].url}" alt="${review['Food Name']}" class="review-image">`
-                            : '';
+                        const costHtml = review.Cost ? `<div class="cost-display">💰 ${review.Cost}</div>` : '';
+                        const linkHtml = review['Product Link'] ? `<a href="${review['Product Link']}" target="_blank" class="store-button">🛒 Buy This</a>` : '';
                         
-                        const costHtml = review.Cost 
-                            ? `<div class="cost-display">💰 ${review.Cost}</div>`
-                            : '';
-                            
-                        const linkHtml = review['Product Link'] 
-                            ? `<a href="${review['Product Link']}" target="_blank" class="store-button">🛒 Buy This</a>`
-                            : '';
-                            
-                        const commentsArray = review.Comments ? review.Comments.split('|||').filter(c => c.trim()) : [];
-                        const commentsHtml = commentsArray.length > 0 
-                            ? `<div class="existing-comments">
-                                ${commentsArray.map(comment => {
-                                    const [author, text] = comment.split(':::', 2);
-                                    return `<div class="comment-item">
-                                        <div class="comment-author">${author || 'Anonymous'}</div>
-                                        <div class="comment-text">${text || comment}</div>
-                                    </div>`;
-                                }).join('')}
-                               </div>`
-                            : '';
+                        const categoryBadge = review.Category ? `<span class="category-badge category-${review.Category.toLowerCase()}">${review.Category === 'Food' ? '🍽️' : '🥤'} ${review.Category}</span>` : '';
+                        const typeBadge = review.Type ? `<span class="category-badge type-${review.Type.toLowerCase()}">${review.Type === 'Weird' ? '🤯' : '🤔'} ${review.Type}</span>` : '';
                         
                         return `
                             <div class="review-card">
                                 <div class="review-header">
-                                    <div class="food-name">${review['Food Name'] || 'Unknown Food'}</div>
+                                    <div class="food-name">${review['Food Name'] || 'Unknown Item'}</div>
                                     <div class="review-score">${review['Total Score'] || 0}/50</div>
                                 </div>
                                 
-                                ${imageHtml}
+                                <div class="category-badges">
+                                    ${categoryBadge}
+                                    ${typeBadge}
+                                </div>
+                                
                                 ${costHtml}
                                 
                                 <div class="review-details">
@@ -1153,27 +992,6 @@
                                 ${review.Summary ? `<div class="review-summary">"${review.Summary}"</div>` : ''}
                                 ${linkHtml}
                                 
-                                <div class="vote-section">
-                                    <div class="vote-buttons">
-                                        <button class="vote-btn thumbs-up" onclick="vote('${review.id}', 'up')">
-                                            👍 <span>${review['Thumbs Up'] || 0}</span>
-                                        </button>
-                                        <button class="vote-btn thumbs-down" onclick="vote('${review.id}', 'down')">
-                                            👎 <span>${review['Thumbs Down'] || 0}</span>
-                                        </button>
-                                        <span class="vote-stats">${(review['Thumbs Up'] || 0) + (review['Thumbs Down'] || 0)} votes</span>
-                                    </div>
-                                    
-                                    <div class="comment-section">
-                                        <button class="comment-toggle" onclick="toggleComments('${review.id}')">💬 Add Comment</button>
-                                        <div class="comment-form" id="comment-form-${review.id}">
-                                            <textarea class="comment-input" id="comment-input-${review.id}" placeholder="Share your thoughts..."></textarea>
-                                            <button class="comment-submit" onclick="submitComment('${review.id}')">Post</button>
-                                        </div>
-                                        ${commentsHtml}
-                                    </div>
-                                </div>
-                                
                                 <div class="review-meta">
                                     by <strong>${review['Reviewer Name'] || 'Anonymous'}</strong> on ${review.createdTime ? new Date(review.createdTime).toLocaleDateString() : 'Unknown'}
                                 </div>
@@ -1184,110 +1002,16 @@
             `;
         }
         
-        function updateResultsInfo() {
-            const info = document.getElementById('resultsInfo');
-            const total = allReviews.length;
-            const showing = filteredReviews.length;
-            
-            if (total === 0) info.textContent = 'No reviews found';
-            else if (showing === total) info.textContent = `Showing all ${total} review${total !== 1 ? 's' : ''}`;
-            else info.textContent = `Showing ${showing} of ${total} review${total !== 1 ? 's' : ''}`;
-        }
-        
         function clearFilters() {
+            document.getElementById('filterCategory').value = 'all';
+            document.getElementById('filterType').value = 'all';
             document.getElementById('sortBy').value = 'newest';
             document.getElementById('filterScore').value = 'all';
             document.getElementById('filterFood').value = '';
-            document.getElementById('filterReviewer').value = 'all';
             applyFilters();
         }
         
-        async function vote(reviewId, voteType) {
-            try {
-                const review = allReviews.find(r => r.id === reviewId);
-                if (!review) return;
-                
-                let thumbsUp = review['Thumbs Up'] || 0;
-                let thumbsDown = review['Thumbs Down'] || 0;
-                
-                if (voteType === 'up') thumbsUp += 1;
-                else thumbsDown += 1;
-                
-                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${reviewId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        fields: {
-                            'Thumbs Up': thumbsUp,
-                            'Thumbs Down': thumbsDown
-                        }
-                    })
-                });
-                
-                if (response.ok) {
-                    review['Thumbs Up'] = thumbsUp;
-                    review['Thumbs Down'] = thumbsDown;
-                    displayReviews(filteredReviews);
-                } else {
-                    throw new Error('Failed to save vote');
-                }
-                
-            } catch (error) {
-                alert('Failed to save vote');
-            }
-        }
-        
-        function toggleComments(reviewId) {
-            const form = document.getElementById(`comment-form-${reviewId}`);
-            form.classList.toggle('show');
-            if (form.classList.contains('show')) {
-                setTimeout(() => document.getElementById(`comment-input-${reviewId}`).focus(), 100);
-            }
-        }
-        
-        async function submitComment(reviewId) {
-            const input = document.getElementById(`comment-input-${reviewId}`);
-            const text = input.value.trim();
-            
-            if (!text) {
-                alert('Please enter a comment');
-                return;
-            }
-            
-            try {
-                const review = allReviews.find(r => r.id === reviewId);
-                if (!review) return;
-                
-                const userName = document.getElementById('reviewerName')?.value || 'Anonymous';
-                const newComment = `${userName}:::${text}`;
-                const existing = review.Comments || '';
-                const updated = existing ? `${existing}|||${newComment}` : newComment;
-                
-                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${reviewId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ fields: { 'Comments': updated } })
-                });
-                
-                if (response.ok) {
-                    review.Comments = updated;
-                    displayReviews(filteredReviews);
-                    input.value = '';
-                    document.getElementById(`comment-form-${reviewId}`).classList.remove('show');
-                } else {
-                    throw new Error('Failed to save comment');
-                }
-                
-            } catch (error) {
-                alert('Failed to save comment');
-            }
-        }
+        window.addEventListener('load', initializeSliders);
     </script>
 </body>
 </html>
